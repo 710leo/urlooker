@@ -8,6 +8,7 @@
 - 带cookie访问
 - agent多机房部署，指定机房访问
 - 检测结果支持向open-falcon推送
+- 支持短信和邮件告警
 
 ## Architecture
 ![此处输入图片的描述][2]
@@ -22,15 +23,17 @@
 
 ## Install
 
-导入数据库
-wget http://x2know.qiniudn.com/schema.sql
-将schema.sql 导入数据库
+**环境依赖**   
+安装mysql & redis      
+wget http://x2know.qiniudn.com/schema.sql      
+将schema.sql 导入数据库  
 
 二进制安装(Ubuntu 14.4 Go1.6下编译)：
 
     wget http://x2know.qiniudn.com/urlooker.tar.gz
     tar xzvf urlooker.tar.gz
     cd urlooker
+    # 修改下cfg.json中的mysql和redis配置
     web/control start
     alarm/control start
     agent/control start
@@ -38,10 +41,10 @@ wget http://x2know.qiniudn.com/schema.sql
 打开浏览器访问 http://127.0.0.1:1984 即可
 
 
-源码安装及介绍见：
-web 组件[安装][6]
-agent 组件[安装][7]
-alarm 组件[安装][8]
+源码安装及详细介绍见：   
+web 组件[安装][6]   
+agent 组件[安装][7]   
+alarm 组件[安装][8]   
 
 ## Thanks
 一些功能参考了open-falcon，感谢 [UlricQin][9] & [laiwei][10]
