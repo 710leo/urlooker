@@ -46,6 +46,9 @@ web 组件[安装][6]
 agent 组件[安装][7]   
 alarm 组件[安装][8]   
 
+## 答疑
+QQ交流群：556988374   
+
 ## Thanks
 一些功能参考了open-falcon，感谢 [UlricQin][9] & [laiwei][10]
 
