@@ -8,7 +8,6 @@
 - 带cookie访问
 - agent多机房部署，指定机房访问
 - 检测结果支持向open-falcon推送
-- 支持短信和邮件告警
 
 ## Architecture
 ![此处输入图片的描述][2]
@@ -24,37 +23,35 @@
 ## 常见问题
 - [wiki手册][6]
 - [常见问题][7]
+- 初始用户名密码：admin/password
 
 ## Install
 
-**环境依赖**   
-安装mysql & redis      
-wget http://x2know.qiniudn.com/schema.sql      
-将schema.sql 导入数据库  
+#### 源码安装
+###### 安装依赖
+```
+yum install -y redis
+yum install -y mysql-server
+```
+###### 导入数据库
+```
+wget https://raw.githubusercontent.com/URLooker/web/master/schema.sql
+mysql -h 127.0.0.1 -u root -p < schema.sql
+```
 
-二进制安装(Ubuntu 14.4 Go1.6下编译)：
-
-    wget http://x2know.qiniudn.com/urlooker.tar.gz
-    tar xzvf urlooker.tar.gz
-    cd urlooker
-    # 修改下cfg.json中的mysql和redis配置
-    web/control start
-    alarm/control start
-    agent/control start
+###### 安装组件
+- web 组件[安装][6]
+- agent 组件[安装][7]
+- alarm 组件[安装][8]
 
 打开浏览器访问 http://127.0.0.1:1984 即可
 
 
-源码安装及详细介绍见：   
-web 组件[安装][8]   
-agent 组件[安装][9]   
-alarm 组件[安装][10]   
-
 ## 答疑
-QQ交流群：556988374   
+QQ交流群：556988374
 
 ## Thanks
-一些功能参考了open-falcon，感谢 [UlricQin][11] & [laiwei][12]
+一些功能参考了open-falcon，感谢 [UlricQin][9] & [laiwei][10]
 
 
   [1]: https://github.com/urlooker
@@ -62,10 +59,8 @@ QQ交流群：556988374
   [3]: https://github.com/urlooker/wiki/raw/master/img/urlooker1.png
   [4]: https://github.com/urlooker/wiki/raw/master/img/urlooker3.png
   [5]: https://github.com/urlooker/wiki/raw/master/img/urlooker2.png
-  [6]: https://github.com/URLooker/wiki
-  [7]: https://github.com/URLooker/wiki/wiki/FAQ
-  [8]: https://github.com/URLooker/web
-  [9]: https://github.com/URLooker/agent
-  [10]: https://github.com/URLooker/alarm
-  [11]: http://ulricqin.com/
-  [12]: https://github.com/laiwei
+  [6]: https://github.com/URLooker/web
+  [7]: https://github.com/URLooker/agent
+  [8]: https://github.com/URLooker/alarm
+  [9]: http://ulricqin.com/
+  [10]: https://github.com/laiwei
