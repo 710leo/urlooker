@@ -36,7 +36,7 @@ yum install -y mysql-server
 ```
 ###### 导入数据库
 ```
-wget https://raw.githubusercontent.com/URLooker/web/master/schema.sql
+wget https://raw.githubusercontent.com/710leo/urlooker/master/sql/schema.sql
 mysql -h 127.0.0.1 -u root -p < schema.sql
 ```
 
@@ -45,7 +45,7 @@ mysql -h 127.0.0.1 -u root -p < schema.sql
 # set $GOPATH and $GOROOT
 mkdir -p $GOPATH/src/github.com/710leo
 cd $GOPATH/src/github.com/urlooker
-git clone 
+git clone https://github.com/710leo/urlooker.git
 go get ./...
 ./control build
 ./control start all
