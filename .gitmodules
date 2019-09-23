@@ -1,9 +1,0 @@
-[submodule "web"]
-	path = web
-	url = https://github.com/urlooker/web.git
-[submodule "alarm"]
-	path = alarm
-	url = https://github.com/urlooker/alarm.git
-[submodule "agent"]
-	path = agent
-	url = https://github.com/urlooker/agent.git

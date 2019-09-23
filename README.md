@@ -5,8 +5,9 @@
 - 返回状态码检测
 - 页面响应时间检测
 - 页面关键词匹配检测
-- 带cookie访问
-- agent多机房部署，指定机房访问
+- 自定义Header
+- GET、POST、PUT访问
+- 自定义POST BODY
 - 检测结果支持向open-falcon推送
 
 ## Architecture
@@ -40,9 +41,15 @@ mysql -h 127.0.0.1 -u root -p < schema.sql
 ```
 
 ###### 安装组件
-- web 组件[安装][6]
-- agent 组件[安装][7]
-- alarm 组件[安装][8]
+```bash
+# set $GOPATH and $GOROOT
+mkdir -p $GOPATH/src/github.com/710leo
+cd $GOPATH/src/github.com/urlooker
+git clone 
+go get ./...
+./control build
+./control start all
+```
 
 打开浏览器访问 http://127.0.0.1:1984 即可
 

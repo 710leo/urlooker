@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{{ template "inc/head" . }}
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+<body>
+
+	<div id="login">
+		<a href="/"><img src="/img/logo.png" class="title"></a>
+		<div class="line">
+			<input type="text" id="username" class="form-control" placeholder="username">
+		</div>
+		<div class="line">
+			<input type="password" id="password" class="form-control" placeholder="password">
+		</div>
+		<div class="line">
+			<input type="password" id="repeat" class="form-control" placeholder="repeat password">
+		</div>
+		<div class="line">
+			<button class="btn btn-success form-control" onclick="register()">SIGN UP</button>
+		</div>
+		<div class="line">
+			<div class="goto">
+				has account? <a href="/auth/login?callback={{.callback}}">sign in</a>
+			</div>
+		</div>
+	</div>
+
+<input type="hidden" id="callback" value="{{.callback}}">
+<script type="text/javascript">
+$(function() {
+	$("#repeat").keypress(function(e) {
+		var key = e.which;
+		if (key == 13) {
+			register();
+		}
+	});
+});
+</script>
+{{ template "inc/footer" . }}
+</body>
+</html>

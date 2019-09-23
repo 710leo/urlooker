@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	 {{ template "inc/head" . }}
+        <script src="/lib/echarts/echarts.min.js"></script>
+    </head>
+    {{ template "inc/nav_chart" . }}
+
+    <body>
+    <div id="main"></div>
+    {{ if .AlarmOn }}
+    <div id="event">
+    <div id="alarm_title">告警历史</div>
+    <table class="table table-hover table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>上报值</th>
+                <th>Url</th>
+                <th>Ip</th>
+                <th>返回码</th>
+                <th>响应时间(ms)</th>
+                <th>时间</th>
+            </tr>
+            </thead>
+            <tbody>
+                {{range .Events}}
+                <tr>
+                	<td width="10%">{{.Status}}</td>
+                    <td width="5%">{{.Result}}</td>
+                    <td id="item_target" width="35%" style="word-wrap:break-word;word-break:break-all;">{{.Url}}</td>
+                    <td width="10%">{{.Ip}}</td>
+                    <td width="5%">{{.RespCode}}</td>
+                    <td width="10%">{{.RespTime}}</td>
+                    <td width="20%">{{HumenTime .EventTime}}</td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+
+       </div>
+       {{ end }}
+
+
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        var timeData = [{{range .TimeData}} {{.}}, {{end}}]
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+
+            legend: {
+            	data:[{{range .Data}} '{{.Ip}}', {{end}}]
+            },
+            xAxis: {
+                type: 'category',
+                
+                data: timeData
+            },
+            yAxis: {},
+            series: [
+            {{range .Data}}
+            {
+                name: '{{.Ip}}',
+                type: 'line',
+                symbolSize: 8,
+                hoverAnimation: false,
+                data:[{{range .Status}}{{.RespTime}},{{end}}]
+            },
+            {{end}}
+            ]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+    
+{{ template "inc/footer" . }}
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {{ template "inc/select2" . }}
+</head>
+<body>
+    {{ template "inc/nav" . }}
+    
+    <div class="all">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Create Team</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label for="name">名称（a-zA-Z0-9_-.）：</label> <input type="text"
+                    id="name" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="resume">简介（方便以后能想起这个组的作用，选填）：</label> <input
+                    type="text" id="resume" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="users">成员：</label> <input
+                    type="text" id="users" class="form-control" />
+                </div>
+                <button type="button" class="btn btn-default" onclick="create_team();">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                    创建
+                </button>
+                <a href="/teams" class="btn btn-default">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                    返回
+                </a>
+            </div>
+        </div>
+    </div>
+    
+<script type="text/javascript">
+$(function() {
+    $("#users").select2({
+        placeholder: "输入要添加组员的name",
+        allowClear: true,
+        multiple: true,
+        quietMillis: 100,
+        minimumInputLength: 1,
+        id: function(obj){return obj.id;},
+        ajax: {
+            url: "/users/query",
+            dataType: 'json',
+            data: function(term, page) {
+                return {
+                    query: term,
+                    limit: 20
+                };
+            },
+            results: function(json, page) {
+                return {results: json.data};
+            }
+        },
+        formatResult: function(obj) {return obj.name + "["+obj.cnname+"]" + "["+obj.email+"]"},
+        formatSelection: function(obj) {return obj.name},
+    });
+});
+</script>
+<script src="/js/team.js?_v=0.0.1"></script>
+{{ template "inc/footer" . }}
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+#login {
+	width: 300px;
+	height: 200px;
+	margin: 0 auto;
+	margin-top: 60px;
+}
+
+#login .title {
+	width: 100px;
+	height: 100px;
+	margin: 0 auto;
+	display: block;
+}
+
+#login .line {
+	margin-bottom: 10px;
+}
+
+#login .line .goto {
+	color: #999;
+	text-align: right;
+}

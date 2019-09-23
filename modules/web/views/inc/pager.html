@@ -1,0 +1,25 @@
+{{if gt .Pager.PageNums 1}}
+<ul class="pagination mt0 mb20">
+    {{if .Pager.HasPrev}}
+    <li><a href="{{.Pager.PageLinkFirst}}">首页</a></li>
+    <li><a href="{{.Pager.PageLinkPrev}}">&lt;</a></li>
+    {{else}}
+    <li class="disabled"><a>首页</a></li>
+    <li class="disabled"><a>&lt;</a></li>
+    {{end}}
+    {{range $index, $page := .Pager.Pages}}
+    <li{{if $.Pager.IsActive .}} class="active"{{end}}>
+    <a href="{{$.Pager.PageLink $page}}">{{$page}}</a>
+    </li>
+    {{end}}
+    {{if .Pager.HasNext}}
+    <li><a href="{{.Pager.PageLinkNext}}">&gt;</a></li>
+    <li><a href="{{.Pager.PageLinkLast}}">尾页</a></li>
+    {{else}}
+    <li
+    class="disabled"><a>&gt;</a></li>
+    <li
+    class="disabled"><a>尾页</a></li>
+    {{end}}
+</ul>
+{{end}}

@@ -1,0 +1,27 @@
+#item_id {
+	width: 3%;
+}
+
+#expect_code, #timeout, #creator, #note, #edit {
+	width: 10%;
+}
+
+#team_name {
+	width: 15%;
+}
+
+#item_target {
+	width: 30%;
+	word-wrap:break-word;
+	word-break:break-all;
+}
+
+.edit_icon {
+	text-decoration:none;
+}
+
+.cut-line {
+    margin: 0 5px;
+    color: #D6D6D6;
+}
+

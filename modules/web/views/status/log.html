@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {{ template "inc/head" . }}
+        <link rel="stylesheet" type="text/css" href="/css/home.css">
+    </head>
+    <body>
+    {{ template "inc/nav" . }}
+    <div class="all">
+        <br/>
+        <br/>
+        <form role="form">
+  			<div class="form-group">
+    		    <label for="name">日志</label>
+    			<textarea class="form-control" rows="10" id="log">{{.Log}}</textarea>
+  			</div>
+		</form>
+  </div>
+
+</script>
+{{ template "inc/footer" . }}
+</body>
+</html>

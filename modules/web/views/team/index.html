@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	{{ template "inc/head" . }}
+</head>
+<body>
+	{{ template "inc/nav" . }}
+    <div class="all">
+        <!-- search -->
+        <div class="form-inline mb20" role="form">
+            <div class="form-group">
+                <input type="text" class="form-control" id="query" value="{{.Query}}">
+            </div>
+            <button onclick="search()" class="btn btn-default">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+            <a href="team/create" class="btn btn-default pull-right">
+                <span class="glyphicon glyphicon-plus"></span>
+                创建
+            </a>
+        </div>
+
+        <table class="table table-hover table-bordered table-striped">
+            <thead>
+            <tr>
+                <th>告警组</th>
+                <th>描述</th>
+                <th>成员</th>
+                <th>创建人</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                {{range .Teams}}
+                <tr>
+                    <td width="10%"><a href="/team/{{.Id}}/users">{{.Name}}</td>
+                    <td width="20%">{{.Resume}}</td>
+                    <td width="50%">
+                        <div class="mt10">
+                            {{range UsersOfTeam .Id}}
+                                <code class="users green">{{.Name}}</code>
+                            {{end}}
+                        </div>
+                    </td>
+                    <td width="10%">{{.CreatorName}}</td>
+                    <td width="10%">
+                        <a data-toggle="tooltip" data-placement="top" title="修改" href="/team/{{.Id}}/edit" style="text-decoration:none;">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+
+        {{ template "inc/pager" . }}
+    </div>
+
+<script type="text/javascript">
+    function search() {
+        location.href="/teams?q="+$.trim($("#query").val());
+    }
+    $(function() {
+        $("#query").keypress(function(e) {
+            var key = e.which;
+            if (key == 13) {
+                search();
+            }
+        });
+    });
+</script>
+{{ template "inc/footer" . }}
+
+</body>
+</html>
