@@ -23,5 +23,6 @@ jobs:
     - name: Build
       run: |
         pwd
-        export GOPATH="$PWD"
+        export GOPATH=$PWD
+        echo $GOPATH
         ./control.sh build
