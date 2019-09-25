@@ -16,10 +16,6 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v1
 
-    - name: Get dependencies
-      run: |
-        go get -v -d ./...
-
     - name: Build
       run: |
         pwd
@@ -48,4 +44,5 @@ jobs:
           cd "$GOPATH/src/$complete_path/$app"
         fi
         cd "$GOPATH/src/$complete_path/$app"
+        go get -v -d ./...
         ./control.sh build
