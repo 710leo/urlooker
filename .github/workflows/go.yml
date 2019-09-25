@@ -21,4 +21,6 @@ jobs:
         go get -v -t -d ./...
 
     - name: Build
-      run: ./control.sh build
+      run: |
+        pwd
+        ./control.sh build
