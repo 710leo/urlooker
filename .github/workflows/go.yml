@@ -23,6 +23,29 @@ jobs:
     - name: Build
       run: |
         pwd
-        export GOPATH=$PWD
-        echo $GOPATH
+        origin=$PWD
+        complete_path="github.com/710leo"
+        app="urlooker"
+        if [ "$PWD" != "$GOPATH/src/$complete_path/$app" ]; then
+        # 如果没有设置GOPATH，则在上层目录创建build目录来作为GOPATH
+        if [ ! -d "$GOPATH" ]; then
+            cd ..
+            if [ ! -d "build" ]; then
+                mkdir -p "build"
+            fi
+            cd build
+            export GOPATH="$PWD"
+        fi
+        # 如果GOPATH下已经存在当前项目, 则备份
+        if [ -d "$GOPATH/src/$complete_path/$app" ]; then
+            mv "$GOPATH/src/$complete_path/$app" "$GOPATH/src/$complete_path/$app.$(date +%Y%m%d%H%M%S)"
+        fi
+        # 如果GOPATH下不存在当前项目标准路径，创建，并且软链接过去
+        if [ ! -d "$GOPATH/src/$complete_path" ]; then
+            mkdir -p "$GOPATH/src/$complete_path"
+        fi
+          ln -sf "$origin" "$GOPATH/src/$complete_path/$app"
+          cd "$GOPATH/src/$complete_path/$app"
+        fi
+        cd "$GOPATH/src/$complete_path/$app"
         ./control.sh build
