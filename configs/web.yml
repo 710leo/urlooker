@@ -35,7 +35,7 @@ alarm: #告警判断组件，为true表示使用alarm组件
 monitorMap:
     default: ["hostname1"] #数组中的字符串需要和agent所在机器的hostname相同
 falcon: #open-falcon接收数据的地址，为true表示要向falcon推送数据
-    enable: true
+    enable: false
     addr: "http://falcon.transfer.addr/api/push"
     interval: 60
 internalDns: #如果为true，表示使用自己的dns解析来解析域名

@@ -20,7 +20,7 @@
                 <li><a href="/">URLooker</a></li>
             </ul>
             <ul class="nav navbar-nav">
-                <li><a href="/strategy/{{.Id}}/edit">编辑</a></li>
+                <li><a href="/strategy/{{.Id}}/edit">Edit</a></li>
             </ul>
             <ul class="nav navbar-nav">
             <li><a href="#">{{.Url}}</a></li>
@@ -38,32 +38,32 @@
                         <li>
                             <a href="javascript:show_profile_page()">
                                 <span class="glyphicon glyphicon-user"></span>
-                                个人信息
+                                personal info
                             </a>
                         </li>
                         <li>
                             <a href="javascript:show_chpwd_page()">
                                  <span class="glyphicon glyphicon-lock"></span>
-                                修改密码
+                                change password
                             </a>
                         </li>
                         <li>
                             <a href="/teams">
                                 <span class="glyphicon glyphicon-user"></span>
-                                团队管理
+                                team
                             </a>
                         </li>
                         <li role="separator" class="divider"></li>
                         <li>
                             <a href="https://github.com/710leo/urlooker" target="_blank">
                                 <span class="glyphicon glyphicon-question-sign"></span>
-                                帮助
+                                help
                             </a>
                         </li>
                         <li>
                             <a href="/auth/logout">
                                 <span class="glyphicon glyphicon-off"></span>
-                                登出
+                                logout
                             </a>
                         </li>
                     </ul>
@@ -80,14 +80,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">个人信息维护</h4>
+                <h4 class="modal-title">personal info</h4>
             </div>
             <div class="modal-body">
               {{ template "inc/profile" }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-success" onclick="update_profile();">更新</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">colse</button>
+                <button type="button" class="btn btn-success" onclick="update_profile();">update</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

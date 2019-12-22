@@ -45,6 +45,10 @@ func checkTargetStatus(item *dataobj.DetectedItem) (itemCheckResult *dataobj.Che
 	}
 	reqStartTime := time.Now()
 
+	defer func() {
+		log.Printf("[detect]:sid:%d domain:%s ip:%s result:%d\n", item.Sid, item.Domain, item.Ip, itemCheckResult.Status)
+	}()
+
 	req := httplib.Get(item.Target)
 
 	if item.Method == "post" {
@@ -75,7 +79,6 @@ func checkTargetStatus(item *dataobj.DetectedItem) (itemCheckResult *dataobj.Che
 	itemCheckResult.PushTime = time.Now().Unix()
 
 	if err != nil {
-		log.Println("[ERROR]:", item.Sid, item.Domain, err)
 		itemCheckResult.Status = REQ_TIMEOUT
 		return
 	}

@@ -22,6 +22,12 @@ func (this *DetectedItemSafeMap) Get(key string) ([]*dataobj.DetectedItem, bool)
 	return ipItem, exists
 }
 
+func (this *DetectedItemSafeMap) GetAll() map[string][]*dataobj.DetectedItem {
+	this.RLock()
+	defer this.RUnlock()
+	return this.M
+}
+
 func (this *DetectedItemSafeMap) Set(detectedItemMap map[string][]*dataobj.DetectedItem) {
 	this.Lock()
 	defer this.Unlock()

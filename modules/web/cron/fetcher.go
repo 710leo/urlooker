@@ -58,13 +58,6 @@ func getDetectedItem() error {
 		}
 	}
 
-	for k, v := range detectedItemMap {
-		log.Println(k)
-		for _, i := range v {
-			log.Println(i)
-		}
-	}
-
 	g.DetectedItemMap.Set(detectedItemMap)
 	return nil
 }

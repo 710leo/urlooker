@@ -13,10 +13,10 @@
   <div class='col-md-6'>
     <div role='form' class='form-horizontal'>
       <div class='form-group'>
-         <label for='TargetNeedToMonitor'>是否启用</label>
+         <label for='TargetNeedToMonitor'>启用(Enable)</label>
             <select class='form-control' id="enable">
-              <option value ="1">启用</option>
-              <option value ="0">禁用</option>
+              <option value ="1">启用 true</option>
+              <option value ="0">禁用 false</option>
             </select>
         </div>
         <div class='form-group'>
@@ -35,33 +35,33 @@
         </div>
       </div>
       <div class='form-group'>
-        <label for='TargetNeedToMonitor'>期望返回状态码</label>
+        <label for='TargetNeedToMonitor'>期望返回状态码(status code)</label>
         <div class='controls'>
-          <input class='form-control' type='text' placeholder='默认为 200' id='expect_code'/>
+          <input class='form-control' type='text' placeholder='(4 表示4** 2个数字40 表示40*  3个数字403)' id='expect_code'/>
         </div>
       </div>
           <div class='form-group'>
-              <label for='TargetNeedToMonitor'>Timeout (毫秒)</label>
+              <label for='TargetNeedToMonitor'>Timeout(ms)</label>
               <input class='form-control' type='timeout' placeholder='单位：毫秒，默认 3000ms' id='timeout'></input>
           </div>
 
            <div class='form-group'>
-            <label for='TargetNeedToMonitor'>备注(选填)</label>
+            <label for='TargetNeedToMonitor'>Remark</label>
             <div class='controls'>
               <input class='form-control' type='text' placeholder='备注信息' id='note'></input>
             </div>
           </div>
 
           <div class='form-group' style="">
-            <label for='TargetNeedToMonitor'>告警设置</label>
+            <label for='TargetNeedToMonitor'>告警设置(Alarm Stra)</label>
             <table>
             <thead>
             <tr>
-              <th><div style="width:50px;">连续</div></th>
+              <th><div style="width:50px;">all</div></th>
               <th><input class='form-control' type="text" style="width:40px;margin-right:10px" value="3"  id='times'></th>
-              <th><div style="width:105px;">次异常,&nbsp;&nbsp;发送到</div></th>
+              <th><div style="width:105px;">fault,&nbsp;&nbsp;send to</div></th>
               <th><input class='form-control' type="text" style="width:150px;margin-right:10px" id='teams'></th>
-              <th><div style="width:80px;">发送次数</div></th>
+              <th><div style="width:80px;">send times</div></th>
               <th><input class='form-control' type="text" style="width:100px" id='max_step'></th>
             </tr>
           </thead>
@@ -69,14 +69,14 @@
           </div>
           <div class="form-group">
           <h4 class="panel-title">
-            <a data-toggle="collapse" href="#collapse1">高级选项</a>
+            <a data-toggle="collapse" href="#collapse1">高级选项(Advanced)</a>
           </h4>
         </div>
         <div id="collapse1" class="panel-collapse collapse">
           <div class='form-group'>
-            <label for='TargetNeedToMonitor'>关键字(选填)</label>
+            <label for='TargetNeedToMonitor'>Keywords</label>
             <div class='controls'>
-              <input class='form-control' type='text' placeholder='用于检索是否异常' id='keywords'></input>
+              <input class='form-control' type='text' placeholder='check page keywords' id='keywords'></input>
             </div>
           </div>
           
@@ -89,11 +89,11 @@ Cookie:adfaldsfjaldjfalj
         </div>
         <div class='form-group'>
           <label for='TargetNeedToMonitor'>Post Data</label>
-          <textarea  class='form-control' type='text' placeholder='post方式使用，直接放到post body中' id='post_data'></textarea>
+          <textarea  class='form-control' type='text' placeholder='set to post body' id='post_data'></textarea>
         </div>
           <div class='form-group'>
           <label for='TargetNeedToMonitor'>IP</label>
-            <input class='form-control' type='text' placeholder='指定域名对应的ip,多个用逗号隔开' id='ip'></input>
+            <input class='form-control' type='text' placeholder='指定域名对应的ip,多个用逗号隔开(set the IP pointed to by the domain)' id='ip'></input>
           </div>
 
           <div class='form-group'>
@@ -110,7 +110,7 @@ Cookie:adfaldsfjaldjfalj
 
         </div>
           <div class='container' style="margin-top:10px">
-            <button class='btn btn-defaultr btn-lg btn-primary' id='submit' onclick='add_strategy()'>提交</button>
+            <button class='btn btn-defaultr btn-lg btn-primary' id='submit' onclick='add_strategy()'>Submit</button>
           </div>
         </div>
         <!-- end of the form -->
@@ -147,6 +147,7 @@ $(function() {
 
 });
 </script>
+{{ template "inc/footer" . }}
 </body>
 </html>
 

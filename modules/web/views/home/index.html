@@ -16,10 +16,10 @@
                 <span class="glyphicon glyphicon-search"></span>
             </button>
             <input type="checkbox" name="mine" id="mine" {{if eq $.Mine 1}} checked="checked"{{end}}>
-            <span>只看自己</span>
+            <span>only me</span>
             <a href="/strategy/add" class="btn btn-default pull-right">
                 <span class="glyphicon glyphicon-plus"></span>
-                添加URL监控
+                Add URL monitor
             </a>
         </div>
 
@@ -28,12 +28,12 @@
             <tr>
                 <th>ID</th>
                 <th>Url</th>
-                <th>期望状态码</th>
-                <th>超时时间</th>
+                <th>Status Code</th>
+                <th>Timeout</th>
                 <th>Creator</th>
-                <th>接收组</th>
-                <th>备注</th>
-                <th>操作</th>
+                <th>Recv Team</th>
+                <th>Remark</th>
+                <th>OP</th>
             </tr>
             </thead>
             <tbody>
@@ -53,15 +53,15 @@
                     </td>
                     <td id="note">{{.Note}}</td>
                     <td id="edit">
-                       <a class="edit-icon" data-toggle="tooltip" data-placement="top" title="查看" href="/url?id={{.Id}}">
+                       <a class="edit-icon" data-toggle="tooltip" data-placement="top" title="Detail" href="/url?id={{.Id}}">
                             <span class="glyphicon glyphicon-list-alt"></span>
                         </a>
                         <span class="cut-line"></span>
-                        <a class="edit-icon" data-toggle="tooltip" data-placement="top" title="修改" href="/strategy/{{.Id}}/edit">
+                        <a class="edit-icon" data-toggle="tooltip" data-placement="top" title="Edit" href="/strategy/{{.Id}}/edit">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
                         <span class="cut-line"></span>
-                        <a class="edit-icon" data-toggle="tooltip" data-placement="top" title="删除" href="javascript:del_strategy('{{.Id}}');">
+                        <a class="edit-icon" data-toggle="tooltip" data-placement="top" title="Del" href="javascript:del_strategy('{{.Id}}');">
                             <span class="glyphicon glyphicon-remove"></span>
                         </a>
                     </td>
@@ -78,7 +78,6 @@
         var mine = document.getElementById('mine').checked ? 1 : 0;
         window.location.href="/?q="+query+"&mine=" + mine;
     }
-
 
     $(function() {
         $("#query").keypress(function(e) {

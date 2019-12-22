@@ -10,17 +10,17 @@
     <div id="main"></div>
     {{ if .AlarmOn }}
     <div id="event">
-    <div id="alarm_title">告警历史</div>
+    <div id="alarm_title">Alarm history</div>
     <table class="table table-hover table-bordered table-striped">
             <thead>
             <tr>
                 <th>Status</th>
-                <th>上报值</th>
+                <th>Value</th>
                 <th>Url</th>
                 <th>Ip</th>
-                <th>返回码</th>
-                <th>响应时间(ms)</th>
-                <th>时间</th>
+                <th>Resp code</th>
+                <th>Resp Time(ms)</th>
+                <th>Time</th>
             </tr>
             </thead>
             <tbody>
@@ -30,7 +30,7 @@
                     <td width="5%">{{.Result}}</td>
                     <td id="item_target" width="35%" style="word-wrap:break-word;word-break:break-all;">{{.Url}}</td>
                     <td width="10%">{{.Ip}}</td>
-                    <td width="5%">{{.RespCode}}</td>
+                    <td width="10%">{{.RespCode}}</td>
                     <td width="10%">{{.RespTime}}</td>
                     <td width="20%">{{HumenTime .EventTime}}</td>
                 </tr>
