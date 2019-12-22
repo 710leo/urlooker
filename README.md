@@ -1,6 +1,6 @@
 ## [urlooker](https://github.com/710leo/urlooker)
-enterprise-level websites monitoring system
-[English](https://github.com/710leo/urlooker/readme.md)|[中文](https://github.com/710leo/urlooker/readmd_zh.md)
+enterprise-level websites monitoring system    
+[English](https://github.com/710leo/urlooker)|[中文](https://github.com/710leo/urlooker/blob/master/readme_zh.md)
 
 ## Feature
 - status code
@@ -18,7 +18,7 @@ enterprise-level websites monitoring system
 
 ![](img/urlooker_en1.png)
 ![](img/urlooker_en2.png)
-<img src="img/urlooker_stra.png" style="zoom:45%;" />
+![stra](img/urlooker_stra.png)
 
 ## FAQ
 - [wiki](https://github.com/710leo/urlooker/wiki)
@@ -48,7 +48,7 @@ go get ./...
 ./control start all
 ```
 
-open http://127.0.0.1:1984 in browse
+open http://127.0.0.1:1984 in browser
 
 ## Q&A
-Gitter: [urlooker](https://gitter.im/urllooker/community
+Gitter: [urlooker](https://gitter.im/urllooker/community)
