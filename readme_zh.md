@@ -1,6 +1,6 @@
 ## [urlooker](https://github.com/710leo/urlooker)
 监控web服务可用性及访问质量，采用go语言编写，易于安装和二次开发    
-[English](https://github.com/710leo/urlooker/readme.md)|[中文](https://github.com/710leo/urlooker/blob/master/readme_zh.md)
+[English](https://github.com/710leo/urlooker)|[中文](https://github.com/710leo/urlooker/blob/master/readme_zh.md)
 
 ## Feature
 - 返回状态码检测
