@@ -40,12 +40,9 @@ mysql -h 127.0.0.1 -u root -p < schema.sql
 ##### 安装组件
 ```bash
 # set $GOPATH and $GOROOT
-mkdir -p $GOPATH/src/github.com/710leo
-cd $GOPATH/src/github.com/710leo
-git clone https://github.com/710leo/urlooker.git
-go get ./...
-./control build
-./control start all
+curl https://raw.githubusercontent.com/710leo/urlooker/master/install.sh|bash
+
+cd $GOPATH/src/github.com/710leo/urlooker && ./control.sh start all
 ```
 
 打开浏览器访问 http://127.0.0.1:1984 即可
