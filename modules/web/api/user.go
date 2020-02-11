@@ -37,6 +37,7 @@ func (this *Web) GetUsersByTeam(req string, reply *UsersResponse) error {
 				Id:     user.Id,
 				Name:   user.Name,
 				Cnname: user.Cnname,
+				Email:  user.Email,
 				Phone:  user.Phone,
 				Wechat: user.Wechat,
 				Role:   user.Role,
