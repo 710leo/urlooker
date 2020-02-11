@@ -67,6 +67,7 @@ type SmtpConfig struct {
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
 	From     string `yaml:"from"`
+	Tls      bool   `yaml:"tls"`
 }
 
 var (
