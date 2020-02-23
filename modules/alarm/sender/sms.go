@@ -45,7 +45,7 @@ func sendSms(phone string, sms string) {
 		<-SmsWorkerChan
 	}()
 
-	sms_shell := path.Join(file.SelfDir(), "script", "send.sms.sh")
+	sms_shell := path.Join(file.SelfDir(), "script", "sms.sh")
 	if !file.IsExist(sms_shell) {
 		log.Printf("%s not found", sms_shell)
 		return

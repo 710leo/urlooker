@@ -33,7 +33,7 @@ alarm: #告警判断组件，为true表示使用alarm组件
     cluster:
         node-1: "127.0.0.1:1986"
 monitorMap:
-    default: ["hostname1"] #数组中的字符串需要和agent所在机器的hostname相同
+    default: ["127.0.0.1"] #数组中的字符串需要和agent所在机器的hostname相同
 falcon: #open-falcon接收数据的地址，为true表示要向falcon推送数据
     enable: false
     addr: "http://falcon.transfer.addr/api/push"
