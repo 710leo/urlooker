@@ -28,7 +28,7 @@ func configChartRoutes(r *mux.Router) {
 }
 
 func configApiRoutes(r *mux.Router) {
-	r.HandleFunc("/api/item/{hostname}", routes.GetHostIpItem).Methods("GET")
+	r.HandleFunc("/api/item/{idc}", routes.GetDetectItem).Methods("GET")
 }
 
 func configStraRoutes(r *mux.Router) {

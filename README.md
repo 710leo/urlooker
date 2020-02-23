@@ -9,7 +9,7 @@ enterprise-level websites monitoring system
 - customize header
 - customize post body
 - support get post put method
-- send to open-falcon
+- send to open-falcon、statsd、prometheus
 
 ## Architecture
 ![Architecture](img/urlooker_arch.png)
@@ -28,7 +28,6 @@ enterprise-level websites monitoring system
 ## Install
 ##### dependence
 ```
-yum install -y redis
 yum install -y mysql-server
 ```
 ##### import mysql database

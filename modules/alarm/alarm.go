@@ -34,18 +34,14 @@ func init() {
 	handleHelp(*help)
 	handleConfig(*cfg)
 
-	g.InitRedisConnPool()
 	judge.InitHistoryBigMap()
 	sender.Init()
 	backend.InitClients(g.Config.Web.Addrs)
 }
 
 func main() {
-	go cron.ReadEvent()
 	go cron.SyncStrategies()
-	go sender.PopAllMail(g.Config.Queue.Mail)
 	receiver.Start()
-	log.Println("ok")
 }
 
 func handleVersion(displayVersion bool) {

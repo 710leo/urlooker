@@ -45,11 +45,20 @@
               <input class='form-control' type='timeout' placeholder='单位：毫秒，默认 3000ms' id='timeout'></input>
           </div>
 
-           <div class='form-group'>
+          <div class='form-group'>
             <label for='TargetNeedToMonitor'>Remark</label>
             <div class='controls'>
               <input class='form-control' type='text' placeholder='备注信息' id='note'></input>
             </div>
+          </div>
+ 
+          <div class='form-group'>
+            <label for='TargetNeedToMonitor'>Region</label>
+            <select class='form-control' id="idc">
+              {{range .Regions}}
+                <option value ="{{.}}">{{.}}</option>
+              {{end}}
+            </select>
           </div>
 
           <div class='form-group' style="">

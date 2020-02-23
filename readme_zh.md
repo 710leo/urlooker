@@ -28,7 +28,6 @@
 ## Install
 ##### 安装依赖
 ```bash
-yum install -y redis
 yum install -y mysql-server
 ```
 ##### 导入数据库
@@ -48,9 +47,8 @@ cd $GOPATH/src/github.com/710leo/urlooker && ./control.sh start all
 打开浏览器访问 http://127.0.0.1:1984 即可
 
 
-## 答疑
-知识星球   
-<img src="img/urlooker_zsxq.png" style="zoom:50%;" />
+## 答疑微信群 
+申请[地址](https://wj.qq.com/s2/5496823/7f70)
 
 ## Thanks
 一些功能参考了open-falcon，感谢 [UlricQin](http://ulricqin.com) & [laiwei](https://github.com/laiwei)

@@ -2,10 +2,12 @@ package sender
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/710leo/urlooker/dataobj"
 	"github.com/710leo/urlooker/modules/alarm/cache"
+	"github.com/710leo/urlooker/modules/alarm/g"
 )
 
 func BuildMail(event *dataobj.Event) string {
@@ -53,4 +55,24 @@ func showSubString(str string, length int) string {
 		s += string(runeStr[i])
 	}
 	return s
+}
+
+func WriteSms(tos []string, content string) {
+	if len(tos) == 0 {
+		return
+	}
+
+	sms := &g.Sms{Tos: strings.Join(tos, ","), Content: content}
+	SmsWorkerChan <- 1
+	go sendSms(sms.Tos, sms.Content)
+}
+
+func WriteMail(tos []string, subject, content string) {
+	if len(tos) == 0 {
+		return
+	}
+
+	mail := &g.Mail{Tos: strings.Join(tos, ","), Subject: subject, Content: content}
+	MailWorkerChan <- 1
+	go sendMail(mail)
 }

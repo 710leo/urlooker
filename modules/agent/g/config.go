@@ -3,7 +3,6 @@ package g
 import (
 	"fmt"
 	"log"
-	"os"
 	"sync"
 
 	"github.com/toolkits/file"
@@ -17,25 +16,17 @@ type WebConf struct {
 }
 
 type GlobalConfig struct {
-	Debug    bool     `yaml:"debug"`
-	Hostname string   `yaml:"hostname"`
-	Worker   int      `yaml:"worker"`
-	Web      *WebConf `yaml:"web"`
+	Debug  bool     `yaml:"debug"`
+	IDC    string   `yaml:"idc"`
+	Worker int      `yaml:"worker"`
+	Web    *WebConf `yaml:"web"`
 }
 
 var (
 	Config     *GlobalConfig
 	configLock = new(sync.RWMutex)
+	IP         string
 )
-
-func Hostname() (string, error) {
-	hostname := Config.Hostname
-	if hostname != "" {
-		return hostname, nil
-	}
-
-	return os.Hostname()
-}
 
 func Parse(cfg string) error {
 	if cfg == "" {

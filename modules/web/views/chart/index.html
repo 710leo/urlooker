@@ -11,13 +11,14 @@
     {{ if .AlarmOn }}
     <div id="event">
     <div id="alarm_title">Alarm history</div>
+    <span>Value Meaning: 0-ok&nbsp;&nbsp;1-timeout&nbsp;&nbsp;2-resp code unexpected&nbsp;&nbsp;3-keywords unexpected</span>
     <table class="table table-hover table-bordered table-striped">
             <thead>
             <tr>
                 <th>Status</th>
                 <th>Value</th>
                 <th>Url</th>
-                <th>Ip</th>
+                <th>Agent</th>
                 <th>Resp code</th>
                 <th>Resp Time(ms)</th>
                 <th>Time</th>

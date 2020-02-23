@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/710leo/urlooker/modules/web/g"
 	. "github.com/710leo/urlooker/modules/web/store"
 	"github.com/710leo/urlooker/modules/web/utils"
 )
@@ -93,7 +94,7 @@ func AdminRegister() error {
 		return nil
 	}
 
-	user := &User{Name: "admin", Password: utils.EncryptPassword("password")}
+	user := &User{Name: "admin", Password: utils.EncryptPassword(g.Config.Salt, "password")}
 	_, err = Orm.Insert(user)
 	if err != nil {
 		return err

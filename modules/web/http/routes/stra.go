@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/710leo/urlooker/modules/web/g"
 	"github.com/710leo/urlooker/modules/web/http/errors"
 	"github.com/710leo/urlooker/modules/web/http/param"
 	"github.com/710leo/urlooker/modules/web/http/render"
@@ -14,6 +15,7 @@ import (
 )
 
 func AddStrategyGet(w http.ResponseWriter, r *http.Request) {
+	render.Put(r, "Regions", g.Config.IDC)
 	render.HTML(r, w, "strategy/create")
 }
 
@@ -48,6 +50,7 @@ func AddStrategyPost(w http.ResponseWriter, r *http.Request) {
 		s.Creator = me.Name
 		s.Enable = param.Int(r, "enable", 1)
 		s.Url = url
+		s.Idc = param.String(r, "idc", "default")
 		s.ExpectCode = param.String(r, "expect_code", "200")
 		s.Timeout = param.Int(r, "timeout", 3000)
 		s.Header = param.String(r, "header", "")
@@ -86,6 +89,7 @@ func GetStrategyById(w http.ResponseWriter, r *http.Request) {
 func UpdateStrategyGet(w http.ResponseWriter, r *http.Request) {
 	s := StraRequired(r)
 	render.Put(r, "Id", s.Id)
+	render.Put(r, "Regions", g.Config.IDC)
 	render.HTML(r, w, "strategy/edit")
 }
 
@@ -121,6 +125,7 @@ func UpdateStrategy(w http.ResponseWriter, r *http.Request) {
 
 	s.Creator = username
 	s.Url = url
+	s.Idc = param.String(r, "idc", "default")
 	s.Method = param.String(r, "method", "get")
 	s.Enable = param.Int(r, "enable", 1)
 	s.ExpectCode = param.String(r, "expect_code", "200")

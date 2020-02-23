@@ -15,6 +15,7 @@ import (
 	"github.com/710leo/urlooker/modules/web/model"
 	"github.com/710leo/urlooker/modules/web/sender"
 	"github.com/710leo/urlooker/modules/web/store"
+	"github.com/710leo/urlooker/modules/web/utils"
 
 	"github.com/toolkits/file"
 )
@@ -47,6 +48,10 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	if g.Config.Statsd.Enable {
+		utils.InitStatsd(g.Config.Statsd.Addr)
+	}
+
 	go api.Start()
 	http.Start()
 }

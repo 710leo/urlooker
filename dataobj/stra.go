@@ -2,6 +2,7 @@ package dataobj
 
 type Strategy struct {
 	Id         int64  `json:"id"`
+	Idc        string `json:"idc"`
 	Method     string `json:"method"`
 	Url        string `json:"url"`
 	Enable     int    `json:"enable"`

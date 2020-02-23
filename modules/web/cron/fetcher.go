@@ -2,7 +2,6 @@ package cron
 
 import (
 	"log"
-	"strings"
 	"time"
 
 	"github.com/710leo/urlooker/dataobj"
@@ -32,29 +31,12 @@ func getDetectedItem() error {
 	}
 
 	for _, s := range stras {
-		_, domain, _, _ := utils.ParseUrl(s.Url)
-		var ipIdcArr []dataobj.IpIdc
-		if s.IP != "" {
-			ips := strings.Split(s.IP, ",")
-			for _, ip := range ips {
-				var tmp dataobj.IpIdc
-				tmp.Ip = ip
-				tmp.Idc = "default"
-				ipIdcArr = append(ipIdcArr, tmp)
-			}
+		detectedItem := newDetectedItem(s)
+		idc := detectedItem.Idc
+		if _, exists := detectedItemMap[idc]; exists {
+			detectedItemMap[idc] = append(detectedItemMap[idc], &detectedItem)
 		} else {
-			ipIdcArr = getIpAndIdc(domain)
-		}
-
-		for _, tmp := range ipIdcArr {
-			detectedItem := newDetectedItem(s, tmp.Ip, tmp.Idc)
-			key := utils.Getkey(tmp.Idc, int(detectedItem.Sid))
-
-			if _, exists := detectedItemMap[key]; exists {
-				detectedItemMap[key] = append(detectedItemMap[key], &detectedItem)
-			} else {
-				detectedItemMap[key] = []*dataobj.DetectedItem{&detectedItem}
-			}
+			detectedItemMap[idc] = []*dataobj.DetectedItem{&detectedItem}
 		}
 	}
 
@@ -62,41 +44,15 @@ func getDetectedItem() error {
 	return nil
 }
 
-func getIpAndIdc(domain string) []dataobj.IpIdc {
-
-	//公司内部提供接口，拿到域名解析的ip和机房列表，获取方式写在InternalDns.CMD文件中
-	if g.Config.InternalDns.Enable {
-		ipIdcArr, err := utils.InternalDns(domain)
-		if err != nil {
-			log.Println(err)
-		}
-		return ipIdcArr
+func newDetectedItem(s *model.Strategy) dataobj.DetectedItem {
+	_, domain, _, _ := utils.ParseUrl(s.Url)
+	idc := s.Idc
+	if idc == "" {
+		idc = g.Config.IDC[0]
 	}
-
-	ipIdcArr := make([]dataobj.IpIdc, 0)
-
-	if utils.IsIP(domain) {
-		var tmp dataobj.IpIdc
-		tmp.Ip = domain
-		tmp.Idc = "default"
-		ipIdcArr = append(ipIdcArr, tmp)
-	} else {
-		ips, _ := utils.LookupIP(domain, 5000)
-		for _, ip := range ips {
-			var tmp dataobj.IpIdc
-			tmp.Ip = ip
-			tmp.Idc = "default"
-			ipIdcArr = append(ipIdcArr, tmp)
-		}
-	}
-
-	return ipIdcArr
-}
-
-func newDetectedItem(s *model.Strategy, ip string, idc string) dataobj.DetectedItem {
 	detectedItem := dataobj.DetectedItem{
-		Ip:         ip,
 		Idc:        idc,
+		Target:     s.Url,
 		Creator:    s.Creator,
 		Sid:        s.Id,
 		Keywords:   s.Keywords,
@@ -108,16 +64,8 @@ func newDetectedItem(s *model.Strategy, ip string, idc string) dataobj.DetectedI
 		Header:     s.Header,
 		PostData:   s.PostData,
 		Method:     s.Method,
+		Domain:     domain,
 	}
-
-	schema, domain, port, path := utils.ParseUrl(s.Url)
-	if port == "" {
-		detectedItem.Target = schema + "//" + ip + path
-	} else {
-		detectedItem.Target = schema + "//" + ip + ":" + port + path
-	}
-
-	detectedItem.Domain = domain
 
 	return detectedItem
 }

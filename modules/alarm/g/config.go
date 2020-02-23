@@ -14,9 +14,6 @@ type GlobalConfig struct {
 	Remain int           `yaml:"remain"` //
 	Rpc    *RpcConfig    `yaml:"rpc"`
 	Web    *WebConfig    `yaml:"web"`
-	Alarm  *AlarmConfig  `yaml:"alarm"`
-	Queue  *QueueConfig  `yaml:"queue"`
-	Mysql  *MysqlConfig  `yaml:"mysql"`
 	Worker *WorkerConfig `yaml:"worker"`
 	Smtp   *SmtpConfig   `yaml:"smtp"`
 }
@@ -31,30 +28,10 @@ type RpcConfig struct {
 	Listen string `yaml:"listen"`
 }
 
-type RedisConfig struct {
-	Dsn          string `yaml:"dsn"`
-	MaxIdle      int    `yaml:"maxIdle"`
-	ConnTimeout  int    `yaml:"connTimeout"`
-	ReadTimeout  int    `yaml:"readTimeout"`
-	WriteTimeout int    `yaml:"writeTimeout"`
-}
-
-type AlarmConfig struct {
-	Enabled      bool         `yaml:"enabled"`
-	MinInterval  int64        `yaml:"minInterval"`
-	QueuePattern string       `yaml:"queuePattern"`
-	Redis        *RedisConfig `yaml:"redis"`
-}
-
 type WebConfig struct {
 	Addrs    []string `yaml:"addrs"`
 	Timeout  int      `yaml:"timeout"`
 	Interval int      `yaml:"interval"`
-}
-
-type QueueConfig struct {
-	Mail string `yaml:"mail"`
-	Sms  string `yaml:"sms"`
 }
 
 type WorkerConfig struct {
@@ -98,6 +75,10 @@ func Parse(cfg string) error {
 	configLock.Lock()
 	defer configLock.Unlock()
 	Config = &c
+
+	if Config.Remain < 10 {
+		Config.Remain = 30
+	}
 
 	log.Println("load configuration file", cfg, "successfully")
 	return nil

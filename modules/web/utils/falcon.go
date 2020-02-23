@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/710leo/urlooker/dataobj"
-	"github.com/710leo/urlooker/modules/web/g"
 
 	"github.com/astaxie/beego/httplib"
 )
@@ -24,11 +23,10 @@ type MetricValue struct {
 	Step      int64       `json:"step"`
 }
 
-func PushFalcon(itemCheckedArray []*dataobj.CheckResult, hostname string) {
-
+func PushFalcon(addr string, itemCheckedArray []*dataobj.CheckResult, ip string) {
 	pushDatas := make([]*MetricValue, 0)
 	for _, itemChecked := range itemCheckedArray {
-		tags := fmt.Sprintf("ip=%s,domain=%s,creator=%s,from=%s", itemChecked.Ip, itemChecked.Domain, itemChecked.Creator, hostname)
+		tags := fmt.Sprintf("domain=%s,creator=%s,from=%s", itemChecked.Domain, itemChecked.Creator, ip)
 		if len(itemChecked.Tag) > 0 { //补充用户自定义tag
 			tags += "," + itemChecked.Tag
 		}
@@ -42,7 +40,7 @@ func PushFalcon(itemCheckedArray []*dataobj.CheckResult, hostname string) {
 		pushDatas = append(pushDatas, &data2)
 	}
 
-	err := push(pushDatas)
+	err := pushData(addr, pushDatas)
 	if err != nil {
 		log.Println("push error", err)
 	}
@@ -50,7 +48,7 @@ func PushFalcon(itemCheckedArray []*dataobj.CheckResult, hostname string) {
 
 func getMetric(item *dataobj.CheckResult, metric, tags string, value int64) MetricValue {
 	var data MetricValue
-	data.Endpoint = fmt.Sprintf("url_%d", item.Sid)
+	data.Endpoint = fmt.Sprintf("api_%d_%s", item.Sid, item.Domain)
 	if item.Endpoint != "" {
 		data.Endpoint = item.Endpoint
 	}
@@ -58,13 +56,13 @@ func getMetric(item *dataobj.CheckResult, metric, tags string, value int64) Metr
 	data.Timestamp = item.PushTime
 	data.Metric = metric
 	data.Type = "GAUGE"
-	data.Step = int64(g.Config.Falcon.Interval)
+	data.Step = item.Step
 	data.Tags = tags
 	data.Value = value
 	return data
 }
 
-func push(data []*MetricValue) error {
+func pushData(addr string, data []*MetricValue) error {
 	d, err := json.Marshal(data)
 	if err != nil {
 		return err
@@ -72,7 +70,7 @@ func push(data []*MetricValue) error {
 
 	log.Println("to falcon: ", string(d))
 
-	_, err = httplib.Post(g.Config.Falcon.Addr).Body(d).String()
+	_, err = httplib.Post(addr).Body(d).String()
 	if err != nil {
 		return err
 	}

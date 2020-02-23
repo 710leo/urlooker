@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS `strategy`;
 CREATE TABLE `strategy` ( 
   `id`          int(10)         unsigned NOT NULL AUTO_INCREMENT,
   `url`         varchar(1024)   NOT NULL,
+  `idc`         varchar(255)    NOT NULL DEFAULT '',
   `enable`      int(1)          NOT NULL DEFAULT 1,
   `keywords`    varchar(255)    NOT NULL DEFAULT '',
   `endpoint`    varchar(255)    NOT NULL DEFAULT '',
@@ -29,6 +30,7 @@ CREATE TABLE `strategy` (
 #ALTER TABLE strategy ADD method varchar(255) DEFAULT "";
 #ALTER TABLE strategy ADD header text;
 #ALTER TABLE strategy ADD post_data text;
+#ALTER TABLE strategy ADD idc varchar(255);
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (

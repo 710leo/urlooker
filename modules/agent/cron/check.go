@@ -1,6 +1,7 @@
 package cron
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -14,7 +15,10 @@ import (
 func StartCheck() {
 	t1 := time.NewTicker(time.Duration(g.Config.Web.Interval) * time.Second)
 	for {
-		items, _ := GetItem()
+		items, err := GetItem()
+		if err != nil {
+			log.Println("[ERROR] ", err)
+		}
 
 		for _, item := range items {
 			g.WorkerChan <- 1
@@ -25,15 +29,15 @@ func StartCheck() {
 }
 
 func GetItem() ([]*dataobj.DetectedItem, error) {
-	hostname, _ := g.Hostname()
-
 	var resp dataobj.GetItemResponse
-	err := backend.CallRpc("Web.GetItem", hostname, &resp)
+	log.Println(g.Config.IDC)
+	err := backend.CallRpc("Web.GetItem", g.Config.IDC, &resp)
 	if err != nil {
-		log.Println(err)
+		return []*dataobj.DetectedItem{}, err
 	}
 	if resp.Message != "" {
-		log.Println(resp.Message)
+		err := fmt.Errorf(resp.Message)
+		return []*dataobj.DetectedItem{}, err
 	}
 
 	return resp.Data, err

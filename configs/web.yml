@@ -3,7 +3,8 @@ salt: "e84d0755dda7a538315ea7a95a8c36af"
 register: true #如果不想其他人注册，可以设置为false
 showDurationMin: 30 #展示曲线的时间范围，单位为分钟
 keepDurationHour: 24  #api探测结果在数据库保存的时间范围，单位为小时
-dns: "114.114.114.114:53" #填写你们域名使用的dns服务
+idc:
+    - "default" #将探测目标分配给哪个机房，agent组件也有一个对应的配置
 http:
     listen: "0.0.0.0:1984"
     secret: "secret"
@@ -32,12 +33,15 @@ alarm: #告警判断组件，为true表示使用alarm组件
     sleepTime: 30
     cluster:
         node-1: "127.0.0.1:1986"
-monitorMap:
-    default: ["127.0.0.1"] #数组中的字符串需要和agent所在机器的hostname相同
 falcon: #open-falcon接收数据的地址，为true表示要向falcon推送数据
     enable: false
     addr: "http://falcon.transfer.addr/api/push"
     interval: 60
-internalDns: #如果为true，表示使用自己的dns解析来解析域名
+statsd:
     enable: false
-    cmd: "./script/dsn.sh"
+    addr: "ip:port"
+prom: 
+    enable: false
+    addr: "ip:port"
+
+

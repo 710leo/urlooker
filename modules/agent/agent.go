@@ -10,6 +10,7 @@ import (
 	"github.com/710leo/urlooker/modules/agent/backend"
 	"github.com/710leo/urlooker/modules/agent/cron"
 	"github.com/710leo/urlooker/modules/agent/g"
+	"github.com/710leo/urlooker/modules/agent/utils"
 
 	"github.com/toolkits/file"
 )
@@ -39,6 +40,13 @@ func init() {
 }
 
 func main() {
+	ips, err := utils.IntranetIP()
+	if len(ips) > 0 {
+		g.IP = ips[0]
+	} else {
+		log.Println("get local ip err: ", err)
+	}
+
 	go cron.Push()
 	cron.StartCheck()
 }

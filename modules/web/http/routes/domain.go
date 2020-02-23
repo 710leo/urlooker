@@ -12,7 +12,7 @@ import (
 )
 
 type Url struct {
-	Ip     string              `json:"ip"`
+	Ip     string              `json:"ip"` //agent所在机器的ip
 	Status []*model.ItemStatus `json:"status"`
 }
 
@@ -27,7 +27,7 @@ func UrlStatus(w http.ResponseWriter, r *http.Request) {
 	var ts int64 = 0
 	for i, index := range sidIpIndex {
 		url := Url{
-			Ip: index.Ip,
+			Ip: "agent-" + index.Ip,
 		}
 		url.Status, err = model.ItemStatusRepo.GetByIpAndSid(index.Ip, index.Sid)
 		errors.MaybePanic(err)

@@ -1,14 +1,13 @@
 package judge
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 
 	"github.com/710leo/urlooker/dataobj"
 	"github.com/710leo/urlooker/modules/alarm/backend"
 	"github.com/710leo/urlooker/modules/alarm/cache"
-	"github.com/710leo/urlooker/modules/alarm/g"
+	"github.com/710leo/urlooker/modules/alarm/sender"
 )
 
 func Judge(L *SafeLinkedList, item *dataobj.ItemStatus, now int64) {
@@ -81,11 +80,6 @@ func sendEventIfNeed(historyData []*HistoryData, isTriggered bool, now int64, ev
 			return
 		}
 
-		if now-lastEvent.EventTime < g.Config.Alarm.MinInterval {
-			// 报警不能太频繁，间隔至少MinIntervals
-			return
-		}
-
 		event.CurrentStep = lastEvent.CurrentStep + 1
 		sendEvent(event)
 	} else {
@@ -101,20 +95,7 @@ func sendEventIfNeed(historyData []*HistoryData, isTriggered bool, now int64, ev
 func sendEvent(event *dataobj.Event) {
 	cache.LastEvents.Set(event.EventId, event)
 	saveEvent(event)
-
-	bs, err := json.Marshal(event)
-	if err != nil {
-		log.Printf("json marshal event %v fail: %v", event, err)
-	}
-
-	redisKey := g.Config.Alarm.QueuePattern
-	rc := g.RedisConnPool.Get()
-	defer rc.Close()
-
-	_, err = rc.Do("LPUSH", redisKey, string(bs))
-	if err != nil {
-		log.Println(err)
-	}
+	sender.SendEvent(event)
 }
 
 func saveEvent(event *dataobj.Event) {

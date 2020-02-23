@@ -10,7 +10,7 @@ import (
 type RelSidIp struct {
 	Id  int64  `json:"id"`
 	Sid int64  `json:"sid"`
-	Ip  string `json:"ip"`
+	Ip  string `json:"ip"` //agent所在机器的ip
 	Ts  int64  `json:"ts"`
 }
 

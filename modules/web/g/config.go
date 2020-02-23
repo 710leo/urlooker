@@ -48,6 +48,16 @@ type FalconConfig struct {
 	Interval int    `yaml:"interval"`
 }
 
+type StatsdConfig struct {
+	Enable bool   `yaml:"enable"`
+	Addr   string `yaml:"addr"`
+}
+
+type PromConfig struct {
+	Enable bool   `yaml:"enable"`
+	Addr   string `yaml:"addr"`
+}
+
 type LdapConfig struct {
 	Enabled    bool     `yaml:"enabled"`
 	Addr       string   `yaml:"addr"`
@@ -64,22 +74,21 @@ type InternalDnsConfig struct {
 }
 
 type GlobalConfig struct {
-	Debug            bool                `yaml:"debug"`
-	Admins           []string            `yaml:"admins"`
-	Salt             string              `yaml:"salt"`
-	Register         bool                `yaml:"register"`
-	ShowDurationMin  int                 `yaml:"showDurationMin"`  //查看最近几分钟内的报警历史和绘图，默认为30分钟
-	KeepDurationHour int                 `yaml:"keepDurationHour"` //保留历史数据时间长度，默认为12小时
-	DNS              string              `yaml:"dns"`              //解析域名的dns服务器地址
-	Http             *HttpConfig         `yaml:"http"`
-	Rpc              *RpcConfig          `yaml:"rpc"`
-	Ldap             *LdapConfig         `yaml:"ldap"`
-	Log              *LogConfig          `yaml:"log"`
-	Mysql            *MysqlConfig        `yaml:"mysql"`
-	Alarm            *AlarmConfig        `yaml:"alarm"`
-	Falcon           *FalconConfig       `yaml:"falcon"`
-	InternalDns      *InternalDnsConfig  `yaml:"internalDns"`
-	MonitorMap       map[string][]string `yaml:"monitorMap"`
+	Debug            bool          `yaml:"debug"`
+	Admins           []string      `yaml:"admins"`
+	Salt             string        `yaml:"salt"`
+	Register         bool          `yaml:"register"`
+	ShowDurationMin  int           `yaml:"showDurationMin"`  //查看最近几分钟内的报警历史和绘图，默认为30分钟
+	KeepDurationHour int           `yaml:"keepDurationHour"` //保留历史数据时间长度，默认为12小时
+	Http             *HttpConfig   `yaml:"http"`
+	Rpc              *RpcConfig    `yaml:"rpc"`
+	Ldap             *LdapConfig   `yaml:"ldap"`
+	Mysql            *MysqlConfig  `yaml:"mysql"`
+	Alarm            *AlarmConfig  `yaml:"alarm"`
+	Falcon           *FalconConfig `yaml:"falcon"`
+	Statsd           *StatsdConfig `yaml:"statsd"`
+	Prom             *PromConfig   `yaml:"prom"`
+	IDC              []string      `yaml:"idc"`
 }
 
 var (
@@ -111,6 +120,10 @@ func Parse(cfg string) error {
 	defer configLock.Unlock()
 	Config = &c
 	log.Println(Config)
+
+	if len(Config.IDC) < 1 {
+		return fmt.Errorf("idc is null")
+	}
 
 	log.Println("load configuration file", cfg, "successfully")
 	return nil

@@ -1,5 +1,4 @@
-debug: false
-hostname: "127.0.0.1"
+idc: "default"
 worker: 1000
 web:
   addrs: ["127.0.0.1:1985"]

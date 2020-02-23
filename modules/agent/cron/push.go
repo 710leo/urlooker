@@ -11,11 +11,6 @@ import (
 )
 
 func Push() {
-	hostname, err := g.Hostname()
-	if err != nil {
-		log.Println("get hostname err:", err)
-		hostname = "null"
-	}
 	for {
 		checkResults := make([]*dataobj.CheckResult, 0)
 		itemResults := g.CheckResultQueue.PopBack(500)
@@ -31,7 +26,7 @@ func Push() {
 
 		var resp string
 		sendResultReq := dataobj.SendResultReq{
-			Hostname:     hostname,
+			Ip:           g.IP,
 			CheckResults: checkResults,
 		}
 		err := backend.CallRpc("Web.SendResult", sendResultReq, &resp)

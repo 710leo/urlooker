@@ -55,6 +55,14 @@
           <input class='form-control' type='text' placeholder='备注信息' id='note'></input>
         </div>
       </div>
+      <div class='form-group'>
+            <label for='TargetNeedToMonitor'>Region</label>
+            <select class='form-control' id="idc">
+              {{range .Regions}}
+                <option value ="{{.}}">{{.}}</option>
+              {{end}}
+            </select>
+      </div>
       <div class='form-group' style="">
         <label for='TargetNeedToMonitor'>告警设置(Alarm Stra)</label>
         <table>

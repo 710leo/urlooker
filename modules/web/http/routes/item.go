@@ -7,12 +7,7 @@ import (
 	"github.com/710leo/urlooker/modules/web/http/render"
 )
 
-func GetHostIpItem(w http.ResponseWriter, r *http.Request) {
-	hostname := HostnameRequired(r)
-	ipItem, exists := g.DetectedItemMap.Get(hostname)
-	if !exists {
-		render.Data(w, "")
-		return
-	}
-	render.Data(w, ipItem)
+func GetDetectItem(w http.ResponseWriter, r *http.Request) {
+	detectItem, _ := g.DetectedItemMap.Get(IdcRequired(r))
+	render.Data(w, detectItem)
 }

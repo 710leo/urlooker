@@ -43,15 +43,15 @@ func BindJson(r *http.Request, obj interface{}) error {
 	return err
 }
 
-func HostnameRequired(r *http.Request) string {
+func IdcRequired(r *http.Request) string {
 	vars := mux.Vars(r)
-	hostname := vars["hostname"]
+	idc := vars["idc"]
 
-	if str.HasDangerousCharacters(hostname) {
-		errors.Panic("hostname不合法")
+	if str.HasDangerousCharacters(idc) {
+		errors.Panic("idc不合法")
 	}
 
-	return hostname
+	return idc
 }
 
 func LoginRequired(w http.ResponseWriter, r *http.Request) (int64, string) {

@@ -5,29 +5,15 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"regexp"
 	"strings"
 	"time"
 
 	"github.com/toolkits/str"
-
-	"github.com/710leo/urlooker/modules/web/g"
 )
 
-func Getkey(idc string, sid int) string {
-	keys := g.Config.MonitorMap[idc]
+func Getkey(keys []string, sid int) string {
 	count := len(keys)
 	return keys[sid%count]
-}
-
-func IsIP(ip string) bool {
-	if ip != "" {
-		isOk, _ := regexp.MatchString(`^(\d{1,3}\.){3}\d{1,3}$`, ip)
-		if isOk {
-			return isOk
-		}
-	}
-	return false
 }
 
 func ParseUrl(target string) (schema, host, port, path string) {
@@ -60,8 +46,8 @@ func KeysOfMap(m map[string]string) []string {
 	return keys
 }
 
-func EncryptPassword(raw string) string {
-	return str.Md5Encode(g.Config.Salt + raw)
+func EncryptPassword(salt, raw string) string {
+	return str.Md5Encode(salt + raw)
 }
 
 func CheckUrl(url string) error {

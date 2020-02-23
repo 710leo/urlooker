@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -14,7 +15,7 @@ import (
 func (this *Web) SendResult(req dataobj.SendResultReq, reply *string) error {
 	for _, arg := range req.CheckResults {
 		itemStatus := model.ItemStatus{
-			Ip:       arg.Ip,
+			Ip:       req.Ip,
 			Sid:      arg.Sid,
 			RespTime: arg.RespTime,
 			RespCode: arg.RespCode,
@@ -24,7 +25,7 @@ func (this *Web) SendResult(req dataobj.SendResultReq, reply *string) error {
 
 		relSidIp := model.RelSidIp{
 			Sid: arg.Sid,
-			Ip:  arg.Ip,
+			Ip:  req.Ip,
 			Ts:  time.Now().Unix(),
 		}
 
@@ -63,7 +64,29 @@ func (this *Web) SendResult(req dataobj.SendResultReq, reply *string) error {
 
 	if g.Config.Falcon.Enable {
 		if len(req.CheckResults) > 0 {
-			utils.PushFalcon(req.CheckResults, req.Hostname)
+			utils.PushFalcon(g.Config.Falcon.Addr, req.CheckResults, req.Ip)
+		}
+	}
+
+	if g.Config.Prom.Enable {
+		if len(req.CheckResults) > 0 {
+			utils.PushPromethues(g.Config.Prom.Addr, req.CheckResults, req.Ip)
+		}
+	}
+
+	if g.Config.Statsd.Enable {
+		for _, detectRes := range req.CheckResults {
+			metric := fmt.Sprintf("api_status_%d_%s_%s_", detectRes.Sid, detectRes.Target, req.Ip)
+			err := utils.PushStatsd(metric, detectRes.Status)
+			if err != nil {
+				log.Println("push Statsd err:", err, detectRes)
+			}
+
+			metric = fmt.Sprintf("api_resptime_%d_%s_%s_", detectRes.Sid, detectRes.Target, req.Ip)
+			err = utils.PushStatsd(metric, int64(detectRes.RespTime))
+			if err != nil {
+				log.Println("push Statsd err:", err, detectRes)
+			}
 		}
 	}
 
@@ -71,10 +94,10 @@ func (this *Web) SendResult(req dataobj.SendResultReq, reply *string) error {
 	return nil
 }
 
-func (this *Web) GetItem(hostname string, resp *dataobj.GetItemResponse) error {
-	items, exists := g.DetectedItemMap.Get(hostname)
+func (this *Web) GetItem(idc string, resp *dataobj.GetItemResponse) error {
+	items, exists := g.DetectedItemMap.Get(idc)
 	if !exists {
-		resp.Message = "no found item assigned to " + hostname
+		resp.Message = "no found item assigned to " + idc
 	}
 	resp.Data = items
 	return nil

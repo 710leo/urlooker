@@ -6,18 +6,12 @@ import (
 	"io"
 )
 
-type IpIdc struct {
-	Ip  string
-	Idc string
-}
-
 //下发给agent的数据结构
 type DetectedItem struct {
 	Sid        int64  `json:"sid"`
 	Method     string `json:"method"`
 	Domain     string `json:"domain"`
 	Target     string `json:"target"`
-	Ip         string `json:"ip"`
 	Keywords   string `json:"keywords"`
 	Timeout    int    `json:"timeout"`
 	Creator    string `json:"creator"`
@@ -42,13 +36,13 @@ type CheckResult struct {
 	RespTime int    `json:"resp_time"`
 	Status   int64  `json:"status"`
 	PushTime int64  `json:"push_time"`
-	Ip       string `json:"ip"`
+	Step     int64  `json:"step"`
 }
 
 type ItemStatus struct {
 	Id       int64  `json:"id"`
 	Sid      int64  `json:"sid"`
-	Ip       string `json:"ip"`
+	Ip       string `json:"ip"` //agent所在机器的ip
 	RespTime int    `json:"resp_time"`
 	RespCode string `json:"resp_code"`
 	PushTime int64  `json:"push_time"`
@@ -63,7 +57,7 @@ func (this *ItemStatus) PK() string {
 }
 
 type SendResultReq struct {
-	Hostname     string
+	Ip           string
 	CheckResults []*CheckResult
 }
 

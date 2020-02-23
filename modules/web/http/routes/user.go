@@ -32,7 +32,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		errors.Panic("用户名不合法，请不要使用非法字符")
 	}
 
-	userid, err := model.UserRegister(username, utils.EncryptPassword(password))
+	userid, err := model.UserRegister(username, utils.EncryptPassword(g.Config.Salt, password))
 	errors.MaybePanic(err)
 
 	render.Data(w, cookie.WriteUser(w, userid, username))
@@ -122,7 +122,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		userid = u.Id
 	} else {
 		var err error
-		userid, err = model.UserLogin(username, utils.EncryptPassword(password))
+		userid, err = model.UserLogin(username, utils.EncryptPassword(g.Config.Salt, password))
 		errors.MaybePanic(err)
 	}
 
@@ -191,7 +191,7 @@ func ChangeMyPasswd(w http.ResponseWriter, r *http.Request) {
 		errors.Panic("两次输入的密码不一致")
 	}
 
-	err = me.ChangePasswd(utils.EncryptPassword(oldPasswd), utils.EncryptPassword(newPasswd))
+	err = me.ChangePasswd(utils.EncryptPassword(g.Config.Salt, oldPasswd), utils.EncryptPassword(g.Config.Salt, newPasswd))
 	if err == nil {
 		cookie.RemoveUser(w)
 	}

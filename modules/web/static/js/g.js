@@ -61,6 +61,7 @@ function get_strategy(id){
   url = "/strategy/" + id
   $.post(url, {}, function(res){
     $("#url").val(res.data.url)
+    $("#idc").val(res.data.idc)
     $("#method").val(res.data.method)
     $("#enable").val(res.data.enable)
     $("#expect_code").val(res.data.expect_code)
@@ -82,6 +83,7 @@ function update_strategy(id){
     var url = '/url?id='+id
     $.post('/strategy/' + id + '/edit', {
       "url": $('#url').val(),
+      "idc": $('#idc').val(),
       "method": $('#method').val(),
       "enable": $('#enable').val(),
       "expect_code": $('#expect_code').val(),
@@ -104,6 +106,7 @@ function update_strategy(id){
 function add_strategy() {
     $.post("/strategy/add", {
       "url": $('#url').val(),
+      "idc": $('#idc').val(),
       "method": $('#method').val(),
       "enable": $('#enable').val(),
       "expect_code": $('#expect_code').val(),
