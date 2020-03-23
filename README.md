@@ -9,7 +9,7 @@ enterprise-level websites monitoring system
 - customize header
 - customize post body
 - support get post put method
-- send to open-falcon、statsd、prometheus
+- send to nightingale、open-falcon、statsd、prometheus
 
 ## Architecture
 ![Architecture](img/urlooker_arch.png)

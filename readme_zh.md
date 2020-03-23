@@ -9,7 +9,7 @@
 - 自定义Header
 - GET、POST、PUT访问
 - 自定义POST BODY
-- 检测结果支持向open-falcon推送
+- 检测结果支持推送 nightingale、open-falcon
 
 ## Architecture
 ![Architecture](img/urlooker_arch.png)

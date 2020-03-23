@@ -33,9 +33,9 @@ alarm: #告警判断组件，为true表示使用alarm组件
     sleepTime: 30
     cluster:
         node-1: "127.0.0.1:1986"
-falcon: #open-falcon接收数据的地址，为true表示要向falcon推送数据
+falcon: #为 true 表示要向 falcon 或者 nightingale 推送数据
     enable: false
-    addr: "http://falcon.transfer.addr/api/push"
+    addr: "http://transfer.addr/api/push"
     interval: 60
 statsd:
     enable: false

@@ -68,9 +68,8 @@ func pushData(addr string, data []*MetricValue) error {
 		return err
 	}
 
-	log.Println("to falcon: ", string(d))
-
-	_, err = httplib.Post(addr).Body(d).String()
+	resp, err := httplib.Post(addr).Header("Content-Type", "application/json").Body(d).String()
+	log.Printf("send:%s resp:%s\n", string(d), resp)
 	if err != nil {
 		return err
 	}
