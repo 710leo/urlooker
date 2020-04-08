@@ -11,7 +11,7 @@ smtp:
     password: ""
     from: "mail@mail.com"
 wechat:
-    toparty: "@all"     // 需要发送指定人请使用"@all"
+    toparty: "@all"     #需要发送指定人请使用"@all"
     agentid: 1000008
     corpid: "wx4323ae792e1SWEW"
     corpsecret: "kq01-IEYUAsqyB2afrSpZDSWWED_u8kJcaS-1231231"
