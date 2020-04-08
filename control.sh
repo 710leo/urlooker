@@ -159,7 +159,10 @@ pack()
 {
 	v=$(date +%Y-%m-%d-%H-%M-%S)
 	tar zcvf urlooker-$v.tar.gz control \
-	supervisord.d \
+	modules/web/static/ modules/web/static \
+	modules/web/views/ modules/web/views \
+	sql	sql \
+	script script\
 	urlooker-web configs/web.yml \
 	urlooker-alarm configs/alarm.yml \
 	urlooker-agent configs/agent.yml

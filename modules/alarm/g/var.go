@@ -18,6 +18,11 @@ type Mail struct {
 	Content string `json:"content"`
 }
 
+type WeChat struct {
+	Tos     string `json:"tos"`
+	Content string `json:"content"`
+}
+
 func (this *Sms) String() string {
 	return fmt.Sprintf(
 		"<Tos:%s, Content:%s>",
@@ -31,6 +36,14 @@ func (this *Mail) String() string {
 		"<Tos:%s, Subject:%s, Content:%s>",
 		this.Tos,
 		this.Subject,
+		this.Content,
+	)
+}
+
+func (this *WeChat) String() string {
+	return fmt.Sprintf(
+		"<Tos:%s, Content:%s>",
+		this.Tos,
 		this.Content,
 	)
 }

@@ -10,7 +10,13 @@ smtp:
     username: "mail@mail.com"
     password: ""
     from: "mail@mail.com"
+wechat:
+    toparty: "@all"     // 需要发送指定人请使用"@all"
+    agentid: 1000008
+    corpid: "wx4323ae792e1SWEW"
+    corpsecret: "kq01-IEYUAsqyB2afrSpZDSWWED_u8kJcaS-1231231"
 worker: 
     sms: 10  #send sms concurrency
     mail: 50 #send mail concurrency
+    wechat: 50  #send wechat concurrency
 # remain: 30

@@ -11,11 +11,12 @@ import (
 
 type GlobalConfig struct {
 	Debug  bool          `yaml:"debug"`
-	Remain int           `yaml:"remain"` //
+	Remain int           `yaml:"remain"`
 	Rpc    *RpcConfig    `yaml:"rpc"`
 	Web    *WebConfig    `yaml:"web"`
 	Worker *WorkerConfig `yaml:"worker"`
 	Smtp   *SmtpConfig   `yaml:"smtp"`
+	WeChat *WeChatConfig `yaml:"wechat"`
 }
 
 type MysqlConfig struct {
@@ -37,6 +38,7 @@ type WebConfig struct {
 type WorkerConfig struct {
 	Sms  int `yaml:"sms"`
 	Mail int `yaml:"mail"`
+	WeChat int `yaml:"wechat"`
 }
 
 type SmtpConfig struct {
@@ -45,6 +47,13 @@ type SmtpConfig struct {
 	Password string `yaml:"password"`
 	From     string `yaml:"from"`
 	Tls      bool   `yaml:"tls"`
+}
+
+type WeChatConfig struct {
+	ToParty    string `json:"toparty"`
+	AgentId    int    `json:agentid`
+	CorpId     string `json:corpid`
+	CorpSecret string `json:corpsecret`
 }
 
 var (
