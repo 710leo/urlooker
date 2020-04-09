@@ -10,14 +10,14 @@ type Strategy dataobj.Strategy
 func GetAllStrategyCount(mine int, query, username string) (int64, error) {
 	if mine == 1 {
 		if query != "" {
-			return Orm.Where("url LIKE ? AND creator = ? ORDER BY id", "%"+query+"%", username).Count(new(Strategy))
+			return Orm.Where("url LIKE ? AND creator = ?", "%"+query+"%", username).Count(new(Strategy))
 		} else {
 			num, err := Orm.Where("creator = ?", username).Count(new(Strategy))
 			return num, err
 		}
 	} else {
 		if query != "" {
-			return Orm.Where("url LIKE ? ORDER BY id", "%"+query+"%").Count(new(Strategy))
+			return Orm.Where("url LIKE ?", "%"+query+"%").Count(new(Strategy))
 		} else {
 			num, err := Orm.Count(new(Strategy))
 			return num, err
@@ -32,13 +32,13 @@ func GetAllStrategy(mine, limit, offset int, query, username string) ([]*Strateg
 	var err error
 	if mine == 1 {
 		if query != "" {
-			err = Orm.Where("url LIKE ? AND creator = ? ORDER BY id", "%"+query+"%", username).Limit(limit, offset).Find(&items)
+			err = Orm.Where("url LIKE ? AND creator = ?", "%"+query+"%", username).Limit(limit, offset).OrderBy("id").Find(&items)
 		} else {
-			err = Orm.Where("creator = ?", username).Limit(limit, offset).Find(&items)
+			err = Orm.Where("creator = ?", username).Limit(limit, offset).OrderBy("id").Find(&items)
 		}
 	} else {
 		if query != "" {
-			err = Orm.Where("url LIKE ? ORDER BY id", "%"+query+"%").Limit(limit, offset).Find(&items)
+			err = Orm.Where("url LIKE ?", "%"+query+"%").Limit(limit, offset).OrderBy("id").Find(&items)
 		} else {
 			err = Orm.Limit(limit, offset).Find(&items)
 		}

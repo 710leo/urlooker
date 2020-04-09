@@ -12,5 +12,5 @@ if [ ! -d "$GOPATH/src/github.com/710leo/urlooker" ]; then
 else
 	cd $GOPATH/src/github.com/710leo/urlooker && git pull
 fi
-cd $GOPATH/src/github.com/710leo/urlooker && ./control.sh build
-echo "install ok! run cd $GOPATH/src/github.com/710leo/urlooker && ./control.sh start all"
+cd $GOPATH/src/github.com/710leo/urlooker && ./control build
+echo "install ok! run cd $GOPATH/src/github.com/710leo/urlooker && ./control start all"

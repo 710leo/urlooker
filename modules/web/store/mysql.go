@@ -15,7 +15,6 @@ func InitMysql() {
 	cfg := g.Config
 
 	var err error
-	log.Println(g.Config)
 	Orm, err = xorm.NewEngine("mysql", cfg.Mysql.Addr)
 	if err != nil {
 		log.Fatalln("fail to connect mysql", err)
