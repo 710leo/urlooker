@@ -14,15 +14,16 @@ func BuildMail(event *dataobj.Event) string {
 	strategy, _ := cache.StrategyMap.Get(event.StrategyId)
 	respTime := fmt.Sprintf("%dms", event.RespTime)
 	return fmt.Sprintf(
-		"状态:%s\nUrl:%s\n备注:%s\nIP:%s\n返回状态码:%s\n响应时间:%s\n时间:%s\n报警次数:%d\n",
+		"状态:%s\n结果:%s\nUrl:%s\nIP:%s\n返回状态码:%s\n响应时间:%s\n时间:%s\n报警次数:%d\n备注:%s\n",
 		event.Status,
+		g.EventStatus[event.Result],
 		event.Url,
-		strategy.Note,
 		event.Ip,
 		event.RespCode,
 		respTime,
 		humanTime(event.EventTime),
 		event.CurrentStep,
+		strategy.Note,
 	)
 }
 
@@ -31,7 +32,7 @@ func BuildSms(event *dataobj.Event) string {
 	return fmt.Sprintf(
 		"[%s][%s %s][%s][%s][%s][O%d]",
 		event.Status,
-		showSubString(event.Url, 50),
+		showSubString(event.Url, 100),
 		event.Ip,
 		event.RespCode,
 		respTime,
@@ -74,6 +75,10 @@ func showSubString(str string, length int) string {
 }
 
 func WriteSms(tos []string, content string) {
+	if !g.Config.SmsEnabled {
+		return
+	}
+
 	if len(tos) == 0 {
 		return
 	}
@@ -84,6 +89,10 @@ func WriteSms(tos []string, content string) {
 }
 
 func WriteMail(tos []string, subject, content string) {
+	if !g.Config.Smtp.Enabled {
+		return
+	}
+
 	if len(tos) == 0 {
 		return
 	}
@@ -94,6 +103,9 @@ func WriteMail(tos []string, subject, content string) {
 }
 
 func WriteWeChat(tos []string, content string) {
+	if !g.Config.WeChat.Enabled {
+		return
+	}
 	if len(tos) == 0 {
 		return
 	}

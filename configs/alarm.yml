@@ -1,3 +1,5 @@
+debug: true
+smsEnabled: true
 rpc:
     listen: "0.0.0.0:1986"
 web: 
@@ -6,15 +8,17 @@ web:
     timeout: 300 
     interval: 60 #get strategy interval
 smtp: 
+    enabled: true
     addr: "mail.addr:25"
     username: "mail@mail.com"
     password: ""
     from: "mail@mail.com"
 wechat:
+    enabled: false
     toparty: "@all"     #需要发送指定人请使用"@all"
     agentid: 1000008
-    corpid: "wx4323ae792e1SWEW"
-    corpsecret: "kq01-IEYUAsqyB2afrSpZDSWWED_u8kJcaS-1231231"
+    corpid: ""
+    corpsecret: ""
 worker: 
     sms: 10  #send sms concurrency
     mail: 50 #send mail concurrency

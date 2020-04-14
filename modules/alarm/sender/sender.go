@@ -28,7 +28,7 @@ var (
 	SmsWorkerChan    chan int
 	MailWorkerChan   chan int
 	WeChatWorkerChan chan int
-	requestError = errors.New("request error,check url or network")
+	requestError     = errors.New("request error,check url or network")
 )
 
 const (
@@ -100,32 +100,26 @@ func sendMail(mail *g.Mail) {
 	s := smtp.NewSMTP(g.Config.Smtp.Addr, g.Config.Smtp.Username, g.Config.Smtp.Password, g.Config.Smtp.Tls, false, false)
 	err := s.SendMail(g.Config.Smtp.From, strings.Replace(mail.Tos, ",", ";", -1), mail.Subject, mail.Content, "text")
 	if err != nil {
-		log.Println(err, "tos:", mail.Tos)
-		//SendSmsToMaintainer("sender:" + err.Error())
+		log.Printf("send mail err:%v tos:%v\n", err, mail.Tos)
+		return
 	}
 
 	if g.Config.Debug {
-		resp := "ok"
-		if err != nil {
-			resp = err.Error()
-		}
 		log.Println("==mail==>>>>", mail)
-		log.Println("<<<<==mail==", resp)
 	}
 }
-
 
 func sendWeChat(weChat *g.WeChat) {
 	defer func() {
 		<-WeChatWorkerChan
 	}()
 
-	var msg = weChatMsg {
-		ToUser: weChat.Tos,
+	var msg = weChatMsg{
+		ToUser:  weChat.Tos,
 		ToParty: g.Config.WeChat.ToParty,
 		MsgType: "text",
 		AgentId: g.Config.WeChat.AgentId,
-		Text: map[string]string{"content": weChat.Content},
+		Text:    map[string]string{"content": weChat.Content},
 	}
 	token, err := GetToken(g.Config.WeChat.CorpId, g.Config.WeChat.CorpSecret)
 	buf, err := json.Marshal(msg)

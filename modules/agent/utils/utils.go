@@ -20,7 +20,6 @@ const (
 	REQ_TIMEOUT       = 1
 	INVALID_RESP_CODE = 2
 	KEYWORD_UNMATCH   = 3
-	DNS_ERROR         = 4
 )
 
 func CheckTargetStatus(item *dataobj.DetectedItem) {

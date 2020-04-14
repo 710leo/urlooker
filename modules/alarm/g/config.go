@@ -10,13 +10,14 @@ import (
 )
 
 type GlobalConfig struct {
-	Debug  bool          `yaml:"debug"`
-	Remain int           `yaml:"remain"`
-	Rpc    *RpcConfig    `yaml:"rpc"`
-	Web    *WebConfig    `yaml:"web"`
-	Worker *WorkerConfig `yaml:"worker"`
-	Smtp   *SmtpConfig   `yaml:"smtp"`
-	WeChat *WeChatConfig `yaml:"wechat"`
+	Debug      bool          `yaml:"debug"`
+	SmsEnabled bool          `yaml:"smsEnabled"`
+	Remain     int           `yaml:"remain"`
+	Rpc        *RpcConfig    `yaml:"rpc"`
+	Web        *WebConfig    `yaml:"web"`
+	Worker     *WorkerConfig `yaml:"worker"`
+	Smtp       *SmtpConfig   `yaml:"smtp"`
+	WeChat     *WeChatConfig `yaml:"wechat"`
 }
 
 type MysqlConfig struct {
@@ -36,12 +37,13 @@ type WebConfig struct {
 }
 
 type WorkerConfig struct {
-	Sms  int `yaml:"sms"`
-	Mail int `yaml:"mail"`
+	Sms    int `yaml:"sms"`
+	Mail   int `yaml:"mail"`
 	WeChat int `yaml:"wechat"`
 }
 
 type SmtpConfig struct {
+	Enabled  bool   `yaml:"enabled"`
 	Addr     string `yaml:"addr"`
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
@@ -50,10 +52,11 @@ type SmtpConfig struct {
 }
 
 type WeChatConfig struct {
-	ToParty    string `json:"toparty"`
-	AgentId    int    `json:agentid`
-	CorpId     string `json:corpid`
-	CorpSecret string `json:corpsecret`
+	Enabled    bool   `yaml:"enabled"`
+	ToParty    string `yaml:"toparty"`
+	AgentId    int    `yaml:agentid`
+	CorpId     string `yaml:corpid`
+	CorpSecret string `yaml:corpsecret`
 }
 
 var (
