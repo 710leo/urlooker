@@ -1,5 +1,11 @@
 name: Go
-on: [push]
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
 jobs:
 
   build:
@@ -7,42 +13,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Set up Go 1.12
+    - name: Set up Go 1.13
       uses: actions/setup-go@v1
       with:
-        go-version: 1.12
+        go-version: 1.13
       id: go
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Build
-      run: |
-        pwd
-        origin=$PWD
-        complete_path="github.com/710leo"
-        app="urlooker"
-        if [ "$PWD" != "$GOPATH/src/$complete_path/$app" ]; then
-        # 如果没有设置GOPATH，则在上层目录创建build目录来作为GOPATH
-        if [ ! -d "$GOPATH" ]; then
-            cd ..
-            if [ ! -d "build" ]; then
-                mkdir -p "build"
-            fi
-            cd build
-            export GOPATH="$PWD"
-        fi
-        # 如果GOPATH下已经存在当前项目, 则备份
-        if [ -d "$GOPATH/src/$complete_path/$app" ]; then
-            mv "$GOPATH/src/$complete_path/$app" "$GOPATH/src/$complete_path/$app.$(date +%Y%m%d%H%M%S)"
-        fi
-        # 如果GOPATH下不存在当前项目标准路径，创建，并且软链接过去
-        if [ ! -d "$GOPATH/src/$complete_path" ]; then
-            mkdir -p "$GOPATH/src/$complete_path"
-        fi
-          ln -sf "$origin" "$GOPATH/src/$complete_path/$app"
-          cd "$GOPATH/src/$complete_path/$app"
-        fi
-        cd "$GOPATH/src/$complete_path/$app"
-        go get -v -d ./...
-        ./control.sh build
+      run: ./control build
