@@ -26,29 +26,36 @@
 - 初始用户名密码：admin/password
 
 ## Install
-##### 安装依赖
+#### docker 安装
+
 ```bash
-yum install -y mysql-server
+docker build .
+docker volume create urlooker-vol
+docker run -p 1984:1984 -d --name urlooker --mount source=urlooker-vol,target=/var/lib/mysql --restart=always [CONTAINER ID]
 ```
-##### 导入数据库
+
+#### 源码安装
+
 ```bash
+# 安装mysql
+yum install -y mysql-server
 wget https://raw.githubusercontent.com/710leo/urlooker/master/sql/schema.sql
 mysql -h 127.0.0.1 -u root -p < schema.sql
-```
 
-##### 安装组件
-```bash
-# set $GOPATH and $GOROOT
+# 安装组件
 curl https://raw.githubusercontent.com/710leo/urlooker/master/install.sh|bash
+cd $GOPATH/src/github.com/710leo/urlooker
 
-cd $GOPATH/src/github.com/710leo/urlooker && ./control.sh start all
+# 将[mysql root password]替换为mysql root 数据库密码
+sed -i 's/urlooker.pass/[mysql root password]/g' configs/web.yml
+
+./control start all
 ```
 
 打开浏览器访问 http://127.0.0.1:1984 即可
 
-
-## 答疑微信群 
-申请[地址](https://wj.qq.com/s2/5496823/7f70)
+## 答疑
+QQ群：556988374
 
 ## Thanks
 一些功能参考了open-falcon，感谢 [UlricQin](http://ulricqin.com) & [laiwei](https://github.com/laiwei)

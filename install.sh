@@ -1,5 +1,5 @@
 if [ "x$GOPATH" = "x" ];then
-	echo "GOPATH is not set, please set $GOPATH!"
+	echo "GOPATH is not set, please install golang & set $GOPATH!"
 	exit 1
 fi
 

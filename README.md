@@ -26,22 +26,28 @@ enterprise-level websites monitoring system
 - default user/password：admin/password
 
 ## Install
-##### dependence
+##### install by docker
+
+```bash
+docker build .
+docker volume create urlooker-vol
+docker run -p 1984:1984 -d --name urlooker --mount source=urlooker-vol,target=/var/lib/mysql --restart=always [CONTAINER ID]
 ```
+
+##### install by code
+```bash
+# install dependence
 yum install -y mysql-server
-```
-##### import mysql database
-```
 wget https://raw.githubusercontent.com/710leo/urlooker/master/sql/schema.sql
 mysql -h 127.0.0.1 -u root -p < schema.sql
-```
 
-##### install modules
-```bash
-# set $GOPATH and $GOROOT
 curl https://raw.githubusercontent.com/710leo/urlooker/master/install.sh|bash
+cd $GOPATH/src/github.com/710leo/urlooker
 
-cd $GOPATH/src/github.com/710leo/urlooker && ./control.sh start all
+# change [mysql root password]to your mysql root password
+sed -i 's/urlooker.pass/[mysql root password]/g' configs/web.yml
+
+./control start all
 ```
 
 open http://127.0.0.1:1984 in browser

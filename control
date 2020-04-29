@@ -127,7 +127,7 @@ status()
 build_one()
 {
 	mod=$1
-	go build -o urlooker-${mod} modules/${mod}/${mod}.go
+	go build -mod=vendor -o urlooker-${mod} modules/${mod}/${mod}.go
 }
 
 build()

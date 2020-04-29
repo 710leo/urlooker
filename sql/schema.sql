@@ -1,7 +1,7 @@
 CREATE DATABASE `urlooker`;
 USE urlooker;
 
-DROP TABLE IF EXISTS `strategy`;
+#DROP TABLE IF EXISTS `strategy`;
 CREATE TABLE `strategy` ( 
   `id`          int(10)         unsigned NOT NULL AUTO_INCREMENT,
   `url`         varchar(1024)   NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE `strategy` (
 #ALTER TABLE strategy ADD post_data text;
 #ALTER TABLE strategy ADD idc varchar(255);
 
-DROP TABLE IF EXISTS `user`;
+#DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id`        BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `name`      VARCHAR(64)      NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `idx_user_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE if EXISTS team;
+#DROP TABLE if EXISTS team;
 CREATE TABLE `team` (
   `id`      BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `name`    VARCHAR(64)      NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `team` (
   UNIQUE KEY `idx_team_name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE if EXISTS `rel_team_user`;
+#DROP TABLE if EXISTS `rel_team_user`;
 CREATE TABLE `rel_team_user` (
   `id`    BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `tid`   BIGINT UNSIGNED NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE `rel_team_user` (
   KEY `idx_rel_uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `rel_sid_ip`;
+#DROP TABLE IF EXISTS `rel_sid_ip`;
 CREATE TABLE `rel_sid_ip` (
   `id`        INT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `sid`       INT UNSIGNED  NOT NULL,
@@ -78,7 +78,7 @@ CREATE TABLE `rel_sid_ip` (
   UNIQUE KEY `idx_sid_ip` (`sid`,`ip`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `event`;
+#DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `id`          INT UNSIGNED    NOT NULL AUTO_INCREMENT,
   `event_id`    VARCHAR(64)     NOT NULL,
@@ -96,7 +96,7 @@ CREATE TABLE `event` (
   INDEX `idx_strategy_id` (`strategy_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `item_status00`;
+#DROP TABLE IF EXISTS `item_status00`;
 CREATE TABLE `item_status00` (
   `id`        INT UNSIGNED  NOT NULL AUTO_INCREMENT,
   `sid`       INT UNSIGNED  NOT NULL,

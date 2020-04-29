@@ -11,7 +11,7 @@ http:
 rpc:
     listen: "0.0.0.0:1985"
 mysql:
-    addr: "root:123456@tcp(127.0.0.1:3306)/urlooker?charset=utf8&&loc=Asia%2FShanghai"
+    addr: "root:urlooker.pass@tcp(127.0.0.1:3306)/urlooker?charset=utf8&&loc=Asia%2FShanghai"
     idle: 10
     max: 20
 ldap:
