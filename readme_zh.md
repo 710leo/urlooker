@@ -29,6 +29,8 @@
 #### docker 安装
 
 ```bash
+git clone https://github.com/710leo/urlooker.git
+cd urlooker
 docker build .
 docker volume create urlooker-vol
 docker run -p 1984:1984 -d --name urlooker --mount source=urlooker-vol,target=/var/lib/mysql --restart=always [CONTAINER ID]
