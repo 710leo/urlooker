@@ -10,14 +10,15 @@ import (
 )
 
 type GlobalConfig struct {
-	Debug      bool          `yaml:"debug"`
-	SmsEnabled bool          `yaml:"smsEnabled"`
-	Remain     int           `yaml:"remain"`
-	Rpc        *RpcConfig    `yaml:"rpc"`
-	Web        *WebConfig    `yaml:"web"`
-	Worker     *WorkerConfig `yaml:"worker"`
-	Smtp       *SmtpConfig   `yaml:"smtp"`
-	WeChat     *WeChatConfig `yaml:"wechat"`
+	Debug      bool            `yaml:"debug"`
+	SmsEnabled bool            `yaml:"smsEnabled"`
+	Remain     int             `yaml:"remain"`
+	Rpc        *RpcConfig      `yaml:"rpc"`
+	Web        *WebConfig      `yaml:"web"`
+	Worker     *WorkerConfig   `yaml:"worker"`
+	Smtp       *SmtpConfig     `yaml:"smtp"`
+	WeChat     *WeChatConfig   `yaml:"wechat"`
+	DingTalk   *DingTalkConfig `yaml:"dingtalk"`
 }
 
 type MysqlConfig struct {
@@ -37,9 +38,10 @@ type WebConfig struct {
 }
 
 type WorkerConfig struct {
-	Sms    int `yaml:"sms"`
-	Mail   int `yaml:"mail"`
-	WeChat int `yaml:"wechat"`
+	Sms      int `yaml:"sms"`
+	Mail     int `yaml:"mail"`
+	WeChat   int `yaml:"wechat"`
+	DingTalk int `yaml:"dingtalk"`
 }
 
 type SmtpConfig struct {
@@ -57,6 +59,11 @@ type WeChatConfig struct {
 	AgentId    int    `yaml:agentid`
 	CorpId     string `yaml:corpid`
 	CorpSecret string `yaml:corpsecret`
+}
+
+type DingTalkConfig struct {
+	Enabled     bool   `yaml:"enabled"`
+	AccessToken string `yaml:"accesstoken"`
 }
 
 var (
