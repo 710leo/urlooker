@@ -60,7 +60,7 @@ func checkTargetStatus(item *dataobj.DetectedItem) (itemCheckResult *dataobj.Che
 	req.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
 	req.SetTimeout(3*time.Second, 10*time.Second)
 	req.Header("Content-Type", "application/json")
-	req.SetHost(item.Domain)
+	//req.SetHost(item.Domain)
 	if item.Data != "" {
 		req.Header("Cookie", item.Data)
 	}
@@ -73,6 +73,9 @@ func checkTargetStatus(item *dataobj.DetectedItem) (itemCheckResult *dataobj.Che
 		headers := parseHeader(item.Header)
 		for _, h := range headers {
 			req.Header(h.Key, h.Value)
+			if h.Key == "Host" {
+                        	req.SetHost(h.Value)
+			}
 		}
 	}
 	resp, err := req.Response()
