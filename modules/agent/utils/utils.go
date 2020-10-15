@@ -74,7 +74,7 @@ func checkTargetStatus(item *dataobj.DetectedItem) (itemCheckResult *dataobj.Che
 		for _, h := range headers {
 			req.Header(h.Key, h.Value)
 			if h.Key == "Host" {
-                        	req.SetHost(h.Value)
+				req.SetHost(h.Value)
 			}
 		}
 	}
