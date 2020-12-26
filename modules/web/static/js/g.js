@@ -72,6 +72,7 @@ function get_strategy(id){
     $("#note").val(res.data.note)
     $("#times").val(res.data.times)
     $("#max_step").val(res.data.max_step)
+    $("#ding_webhook").val(res.data.ding_webhook)
     $("#endpoint").val(res.data.endpoint)
     $("#post_data").val(res.data.post_data)
     $("#header").val(res.data.header)
@@ -91,6 +92,7 @@ function update_strategy(id){
       "times": $('#times').val(),
       "teams": $('#teams').val(),
       "max_step": $('#max_step').val(),
+      "ding_webhook": $('#ding_webhook').val(),
       "tags": $('#tags').val(),
       "endpoint": $('#endpoint').val(),
       "note": $('#note').val(),
@@ -114,6 +116,7 @@ function add_strategy() {
       "times": $('#times').val(),
       "teams": $('#teams').val(),
       "max_step": $('#max_step').val(),
+      "ding_webhook": $('#ding_webhook').val(),
       "tags": $('#tags').val(),
       "endpoint": $('#endpoint').val(),
       "note": $('#note').val(),

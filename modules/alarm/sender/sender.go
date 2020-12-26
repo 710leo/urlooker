@@ -25,10 +25,11 @@ import (
 )
 
 var (
-	SmsWorkerChan    chan int
-	MailWorkerChan   chan int
-	WeChatWorkerChan chan int
-	requestError     = errors.New("request error,check url or network")
+	SmsWorkerChan         chan int
+	MailWorkerChan        chan int
+	WeChatWorkerChan      chan int
+	DingWebhookWorkerChan chan int
+	requestError          = errors.New("request error,check url or network")
 )
 
 const (
@@ -43,6 +44,7 @@ func Init() {
 	SmsWorkerChan = make(chan int, workerConfig.Sms)
 	MailWorkerChan = make(chan int, workerConfig.Mail)
 	WeChatWorkerChan = make(chan int, workerConfig.WeChat)
+	DingWebhookWorkerChan = make(chan int, workerConfig.DingWebhook)
 }
 
 func SendEvent(event *dataobj.Event) {
@@ -63,6 +65,63 @@ func SendEvent(event *dataobj.Event) {
 	WriteSms(sms, smsContent)
 	WriteMail(mail, smsContent, mailContent)
 	WriteWeChat(weChat, weChatContent)
+
+	if g.Config.DingWebhookEnabled {
+		strategy, exists := cache.StrategyMap.Get(event.StrategyId)
+		if !exists {
+			log.Printf("strategyId: %d not exists", event.StrategyId)
+		} else if strategy.DingWebhook != "" {
+			content := BuildDingWebhook(event)
+			DingWebhookWorkerChan <- 1
+			title := "[告警] " + strategy.Note
+			go sendDingWebhook(strategy.DingWebhook, title, content)
+		}
+	}
+}
+
+type Markdown struct {
+	Title string `json:"title"`
+	Text  string `json:"text"`
+}
+
+type At struct {
+	AtMobiles []string `json:"atMobiles"`
+	IsAtAll   bool     `json:"isAtAll"`
+}
+
+type DingWebhookMsg struct {
+	MsgType  string    `json:"msgtype"`
+	Markdown *Markdown `json:"markdown"`
+	At       *At       `jons:"at"`
+}
+
+func sendDingWebhook(webhook, title, content string) {
+	defer func() {
+		<-DingWebhookWorkerChan
+	}()
+
+	log.Printf("send ding_webhook(%s):\n %s", webhook, content)
+
+	msg := &DingWebhookMsg{
+		MsgType: "markdown",
+		Markdown: &Markdown{
+			Title: title,
+			Text:  content,
+		},
+	}
+	buf, err := json.Marshal(msg)
+
+	if err != nil {
+		log.Printf("marshal ding_webhook msg err:%q", err)
+		return
+	}
+
+	err = SendMsg(webhook, buf)
+	if err != nil {
+		log.Printf("send ding webhook msg err: %q", err)
+	} else {
+		log.Printf("send ding webhook success")
+	}
 }
 
 func sendSms(phone string, sms string) {
@@ -126,7 +185,8 @@ func sendWeChat(weChat *g.WeChat) {
 	if err != nil {
 		log.Println(err, "get weChat token error")
 	}
-	err = SendMsg(token.AccessToken, buf)
+	url := sendUrl + token.AccessToken
+	err = SendMsg(url, buf)
 	if err != nil {
 		log.Println(err, "send weChat")
 	} else {
@@ -170,6 +230,7 @@ type weChatMsg struct {
 }
 
 // 定义微信错误返回结构体
+// 钉钉Webhook返回结构体
 type sendMsgError struct {
 	ErrCode int    `json:"errcode`
 	ErrMsg  string `json:"errmsg"`
@@ -201,9 +262,9 @@ func GetToken(corpId, corpSecret string) (at accessToken, err error) {
 }
 
 // 发送微信
-func SendMsg(AccessToken string, msgBody []byte) error {
+func SendMsg(url string, msgBody []byte) error {
 	body := bytes.NewBuffer(msgBody)
-	resp, err := http.Post(sendUrl+AccessToken, "application/json", body)
+	resp, err := http.Post(url, "application/json", body)
 	if resp.StatusCode != 200 {
 		return requestError
 	}

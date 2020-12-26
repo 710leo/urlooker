@@ -65,7 +65,7 @@ func (this *Strategy) Add() (int64, error) {
 }
 
 func (this *Strategy) Update() error {
-	_, err := Orm.Where("id=?", this.Id).Cols("times", "max_step", "expect_code", "timeout", "url", "idc", "enable", "ip", "keywords", "note", "data", "tag", "endpoint", "header", "post_data", "method", "teams").Update(this)
+	_, err := Orm.Where("id=?", this.Id).Cols("times", "max_step", "ding_webhook", "expect_code", "timeout", "url", "idc", "enable", "ip", "keywords", "note", "data", "tag", "endpoint", "header", "post_data", "method", "teams").Update(this)
 	return err
 }
 

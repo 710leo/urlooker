@@ -41,6 +41,22 @@ func BuildSms(event *dataobj.Event) string {
 	)
 }
 
+func BuildDingWebhook(event *dataobj.Event) string {
+	strategy, _ := cache.StrategyMap.Get(event.StrategyId)
+	respTime := fmt.Sprintf("%dms", event.RespTime)
+	return fmt.Sprintf(
+		"- 告警: %s\n- 状态: %s\n- Url: %s\n- IP: %s\n- 返回状态码: %s\n- 响应时间: %s\n- 时间: %s\n- 报警次数: %d\n",
+		strategy.Note,
+		event.Status,
+		event.Url,
+		event.Ip,
+		event.RespCode,
+		respTime,
+		humanTime(event.EventTime),
+		event.CurrentStep,
+	)
+}
+
 func BuildWeChat(event *dataobj.Event) string {
 	strategy, _ := cache.StrategyMap.Get(event.StrategyId)
 	respTime := fmt.Sprintf("%dms", event.RespTime)

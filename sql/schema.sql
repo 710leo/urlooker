@@ -19,6 +19,7 @@ CREATE TABLE `strategy` (
   `method`      varchar(255)    DEFAULT "get",
   `post_data`   text,
   `note`        text,
+  `ding_webhook` varchar(255)   NOT NULL DEFAULT '',
   `max_step`    int(4)          NOT NULL DEFAULT 3,
   `times`       int(4)          NOT NULL DEFAULT 3,
   `teams`       varchar(32)     NOT NULL DEFAULT '',

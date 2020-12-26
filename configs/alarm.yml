@@ -19,8 +19,10 @@ wechat:
     agentid: 1000008
     corpid: ""
     corpsecret: ""
+ding_webhook_enabled: true
 worker: 
     sms: 10  #send sms concurrency
     mail: 50 #send mail concurrency
     wechat: 50  #send wechat concurrency
+    ding_webhook: 30 # send ding webhook concurrency
 # remain: 30

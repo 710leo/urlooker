@@ -64,6 +64,7 @@ func AddStrategyPost(w http.ResponseWriter, r *http.Request) {
 		s.Endpoint = param.String(r, "endpoint", "")
 		s.Tag = tagStr
 		s.IP = param.String(r, "ip", "")
+		s.DingWebhook = param.String(r, "ding_webhook", "")
 
 		_, err = s.Add()
 		if err != nil {
@@ -140,6 +141,7 @@ func UpdateStrategy(w http.ResponseWriter, r *http.Request) {
 	s.Data = param.String(r, "data", "")
 	s.Endpoint = param.String(r, "endpoint", "")
 	s.IP = param.String(r, "ip", "")
+	s.DingWebhook = param.String(r, "ding_webhook", "")
 	s.Tag = tagStr
 
 	err = s.Update()
