@@ -10,15 +10,15 @@ import (
 )
 
 type GlobalConfig struct {
-	Debug              bool          `yaml:"debug"`
-	SmsEnabled         bool          `yaml:"smsEnabled"`
-	Remain             int           `yaml:"remain"`
-	Rpc                *RpcConfig    `yaml:"rpc"`
-	Web                *WebConfig    `yaml:"web"`
-	Worker             *WorkerConfig `yaml:"worker"`
-	Smtp               *SmtpConfig   `yaml:"smtp"`
-	WeChat             *WeChatConfig `yaml:"wechat"`
-	DingWebhookEnabled bool          `yaml:"ding_webhook_enabled"`
+	Debug       bool          `yaml:"debug"`
+	SmsEnabled  bool          `yaml:"smsEnabled"`
+	Remain      int           `yaml:"remain"`
+	Rpc         *RpcConfig    `yaml:"rpc"`
+	Web         *WebConfig    `yaml:"web"`
+	Worker      *WorkerConfig `yaml:"worker"`
+	Smtp        *SmtpConfig   `yaml:"smtp"`
+	WeChat      *WeChatConfig `yaml:"wechat"`
+	DingWebhook *DingWebhook  `yaml:"ding_webhook"`
 }
 
 type MysqlConfig struct {
@@ -59,6 +59,11 @@ type WeChatConfig struct {
 	AgentId    int    `yaml:agentid`
 	CorpId     string `yaml:corpid`
 	CorpSecret string `yaml:corpsecret`
+}
+
+type DingWebhook struct {
+	Enabled bool   `yaml:"enabled"`
+	Addr    string `yaml:"addr"`
 }
 
 var (

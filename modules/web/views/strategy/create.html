@@ -66,10 +66,6 @@
             <br>
             <table>
             <thead>
-              <tr> 钉钉Webhook </tr>
-              <tr>
-                <input class='form-control' type="text" id="ding_webhook">
-              </tr>
             <tr>
               <th><div style="width:50px;">all</div></th>
               <th><input class='form-control' type="text" style="width:40px;margin-right:10px" value="3"  id='times'></th>
@@ -120,6 +116,13 @@ Cookie:adfaldsfjaldjfalj
           <div class='form-group'>
             <label for='TargetNeedToMonitor'>tags</label>
             <textarea type="text" class="form-control " id="tags" value="" placeholder="向falcon推送数据时使用, 形式为 a=b 每行一个"/></textarea>
+          </div>
+
+          <div class='form-group'>
+            <label for='TargetNeedToMonitor'>钉钉Webhook</label>
+            <div class='controls'>
+              <input class='form-control' type='text' placeholder='自定义发往钉钉群的Webhook' id='ding_webhook'> </input>
+            </div>
           </div>
 
         </div>

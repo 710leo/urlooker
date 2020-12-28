@@ -19,7 +19,9 @@ wechat:
     agentid: 1000008
     corpid: ""
     corpsecret: ""
-ding_webhook_enabled: true
+ding_webhook:
+    enabled: true
+    addr: ""    # 全局webhook地址，可以为空，避免为每个url单独设置重复的地址
 worker: 
     sms: 10  #send sms concurrency
     mail: 50 #send mail concurrency

@@ -66,15 +66,25 @@ func SendEvent(event *dataobj.Event) {
 	WriteMail(mail, smsContent, mailContent)
 	WriteWeChat(weChat, weChatContent)
 
-	if g.Config.DingWebhookEnabled {
+	if g.Config.DingWebhook.Enabled {
 		strategy, exists := cache.StrategyMap.Get(event.StrategyId)
 		if !exists {
 			log.Printf("strategyId: %d not exists", event.StrategyId)
-		} else if strategy.DingWebhook != "" {
+		} else {
 			content := BuildDingWebhook(event)
-			DingWebhookWorkerChan <- 1
 			title := "[告警] " + strategy.Note
-			go sendDingWebhook(strategy.DingWebhook, title, content)
+
+			if strategy.DingWebhook != "" {
+				log.Println("sending Ding Webhook(strategy)", strategy.DingWebhook)
+				DingWebhookWorkerChan <- 1
+				go sendDingWebhook(strategy.DingWebhook, title, content)
+			}
+
+			if g.Config.DingWebhook.Addr != "" && g.Config.DingWebhook.Addr != strategy.DingWebhook {
+				log.Println("sending Ding Webhook(global)", g.Config.DingWebhook.Addr)
+				DingWebhookWorkerChan <- 1
+				go sendDingWebhook(g.Config.DingWebhook.Addr, title, content)
+			}
 		}
 	}
 }
