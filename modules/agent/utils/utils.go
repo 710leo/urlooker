@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+    "fmt"
+    "regexp"
 
 	"github.com/710leo/urlooker/dataobj"
 	"github.com/710leo/urlooker/modules/agent/g"
@@ -101,6 +103,47 @@ func checkTargetStatus(item *dataobj.DetectedItem) (itemCheckResult *dataobj.Che
 	if strings.Index(respCode, item.ExpectCode) == 0 || (len(item.ExpectCode) == 0 && respCode == "200") {
 		if len(item.Keywords) > 0 {
 			contents, _ := ioutil.ReadAll(resp.Body)
+            if strings.Contains(item.Keywords, ":::") {
+                str_arr := strings.Split(item.Keywords, ":::")
+                rule := str_arr[0]
+                if len(str_arr) > 2 {
+                    rule = str_arr[1]
+                }
+
+                switch rule {
+                    case "not":
+                        // not contains
+                        if strings.Contains(string(contents), str_arr[1]) {
+                            itemCheckResult.Status = KEYWORD_UNMATCH
+                            return
+                        }
+                    case "regexp":
+                        // contains
+                        if rule == str_arr[0] {
+                            log.Printf("[detect]:Use regexp: %s\n", str_arr[1])
+                            reg := regexp.MustCompile(fmt.Sprintf(`%s`, str_arr[1]))
+                            reg_arr := reg.FindAllStringSubmatch(string(contents), -1)
+                            if reg_arr == nil {
+                                itemCheckResult.Status = KEYWORD_UNMATCH
+                                return
+                            }
+                        } else {
+                            // not contains
+                            reg := regexp.MustCompile(fmt.Sprintf(`%s`, str_arr[2]))
+                            reg_arr := reg.FindAllStringSubmatch(string(contents), -1)
+                            if reg_arr != nil {
+                                log.Printf("[detect]:Regexp match data: %#v\n", reg_arr)
+                                itemCheckResult.Status = KEYWORD_UNMATCH
+                                return
+                            }
+                        }
+                    default:
+                        log.Printf("[detect]:Not found rule:%s\n", str_arr[0])
+                }
+
+                itemCheckResult.Status = NO_ERROR
+                return
+            }
 			if !strings.Contains(string(contents), item.Keywords) {
 				itemCheckResult.Status = KEYWORD_UNMATCH
 				return
