@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+    "fmt"
+    "regexp"
 
 	"github.com/710leo/urlooker/dataobj"
 	"github.com/710leo/urlooker/modules/agent/g"
@@ -101,10 +103,64 @@ func checkTargetStatus(item *dataobj.DetectedItem) (itemCheckResult *dataobj.Che
 	if strings.Index(respCode, item.ExpectCode) == 0 || (len(item.ExpectCode) == 0 && respCode == "200") {
 		if len(item.Keywords) > 0 {
 			contents, _ := ioutil.ReadAll(resp.Body)
-			if !strings.Contains(string(contents), item.Keywords) {
-				itemCheckResult.Status = KEYWORD_UNMATCH
-				return
-			}
+
+            contentsFormat := string(contents)
+            for _, keywordsItem := range strings.Split(item.Keywords, "|||") {
+                log.Printf("[keywords-item]:%s", keywordsItem)
+
+                if strings.Contains(keywordsItem, ":::") {
+                    keywordsItemArr := strings.Split(keywordsItem, ":::")
+                    rule := keywordsItemArr[0]
+                    if rule == "replace" {
+                        contentsFormat = strings.Replace(contentsFormat, keywordsItemArr[1], keywordsItemArr[2], 1)
+                        log.Printf("[replace]:%s to %s", keywordsItemArr[1], keywordsItemArr[2])
+                        continue
+                    }
+
+                    if len(keywordsItemArr) > 2 {
+                        // get regexp rule from keywordsItem(not:::regexp:::<regexp>)
+                        rule = keywordsItemArr[1]
+                    }
+
+                    switch rule {
+                        case "not":
+                            // not contains
+                            if strings.Contains(contentsFormat, keywordsItemArr[1]) {
+                                itemCheckResult.Status = KEYWORD_UNMATCH
+                                return
+                            }
+                        case "regexp":
+                            // regexp contains
+                            if rule == keywordsItemArr[0] {
+                                reg := regexp.MustCompile(fmt.Sprintf(`%s`, keywordsItemArr[1]))
+                                reg_arr := reg.FindAllStringSubmatch(contentsFormat, -1)
+                                if reg_arr == nil {
+                                    log.Printf("[regexp]:`%s` not match data: %s", keywordsItemArr[1], contentsFormat)
+                                    itemCheckResult.Status = KEYWORD_UNMATCH
+                                    return
+                                }
+                            } else {
+                                // not regexp contains
+                                reg := regexp.MustCompile(fmt.Sprintf(`%s`, keywordsItemArr[2]))
+                                reg_arr := reg.FindAllStringSubmatch(contentsFormat, -1)
+                                if reg_arr != nil {
+                                    log.Printf("[regexp]:`%s` match data: %#v in %s", keywordsItemArr[2], reg_arr, contentsFormat)
+                                    itemCheckResult.Status = KEYWORD_UNMATCH
+                                    return
+                                }
+                            }
+                        default:
+                            log.Printf("[rule]: %s not found!", rule)
+                    }
+
+                    continue
+                }
+
+                if !strings.Contains(contentsFormat, keywordsItem) {
+                    itemCheckResult.Status = KEYWORD_UNMATCH
+                    return
+                }
+            }
 		}
 
 		itemCheckResult.Status = NO_ERROR
