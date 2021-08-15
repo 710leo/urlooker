@@ -19,8 +19,12 @@ wechat:
     agentid: 1000008
     corpid: ""
     corpsecret: ""
+dingtalk:
+    enabled: true
+    accesstoken: "xxxx"
 worker: 
     sms: 10  #send sms concurrency
     mail: 50 #send mail concurrency
     wechat: 50  #send wechat concurrency
+    dingtalk: 50 #send dingtalk concurrency
 # remain: 30

@@ -25,10 +25,11 @@ import (
 )
 
 var (
-	SmsWorkerChan    chan int
-	MailWorkerChan   chan int
-	WeChatWorkerChan chan int
-	requestError     = errors.New("request error,check url or network")
+	SmsWorkerChan      chan int
+	MailWorkerChan     chan int
+	WeChatWorkerChan   chan int
+	DingTalkWorkerChan chan int
+	requestError       = errors.New("request error,check url or network")
 )
 
 const (
@@ -36,6 +37,8 @@ const (
 	sendUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token="
 	// 获取token使用导的url
 	getToken = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="
+	// 钉钉webhook
+	webHook = "https://oapi.dingtalk.com/robot/send?access_token="
 )
 
 func Init() {
@@ -43,26 +46,31 @@ func Init() {
 	SmsWorkerChan = make(chan int, workerConfig.Sms)
 	MailWorkerChan = make(chan int, workerConfig.Mail)
 	WeChatWorkerChan = make(chan int, workerConfig.WeChat)
+	DingTalkWorkerChan = make(chan int, workerConfig.DingTalk)
 }
 
 func SendEvent(event *dataobj.Event) {
 	mail := make([]string, 0)
 	sms := make([]string, 0)
 	weChat := make([]string, 0)
+	dingTalk := make([]string, 0)
 	users := getUsers(event.StrategyId)
 
 	mailContent := BuildMail(event)
 	smsContent := BuildSms(event)
 	weChatContent := BuildWeChat(event)
+	dingTalkContent := BuildDingTalk(event)
 	for _, user := range users {
 		mail = append(mail, user.Email)
 		sms = append(sms, user.Phone)
 		weChat = append(weChat, user.Wechat)
+		dingTalk = append(dingTalk, user.Phone)
 	}
 
 	WriteSms(sms, smsContent)
 	WriteMail(mail, smsContent, mailContent)
 	WriteWeChat(weChat, weChatContent)
+	WriteDingTalk(dingTalk, dingTalkContent)
 }
 
 func sendSms(phone string, sms string) {
@@ -135,6 +143,28 @@ func sendWeChat(weChat *g.WeChat) {
 	}
 }
 
+func sendDingTalk(dingTalk *g.DingTalk) {
+	defer func() {
+		<-DingTalkWorkerChan
+	}()
+	var msg = dingTalkMsg{
+		MsgType:  "markdown",
+		MarkDown: map[string]string{"title": "站点监控", "text": dingTalk.Content},
+	}
+	buf, err := json.Marshal(msg)
+	if err != nil {
+		log.Println(err, "marshal dingTalk msg error")
+	}
+	err = SendDingTalk(g.Config.DingTalk.AccessToken, buf)
+	if err != nil {
+		log.Println(err, "send dingTalk")
+	} else {
+		log.Println("==dingTalk==>>>>", dingTalk)
+		log.Println("<<<<==dingTalk==", string(buf))
+	}
+
+}
+
 func getUsers(sid int64) []*dataobj.User {
 	var usersResp api.UsersResponse
 	var users []*dataobj.User
@@ -169,7 +199,13 @@ type weChatMsg struct {
 	Safe    int               `json:"safe"`
 }
 
-// 定义微信错误返回结构体
+// 定义钉钉markdown消息结构体
+type dingTalkMsg struct {
+	MsgType  string            `json:"msgtype"`
+	MarkDown map[string]string `json:"markdown"`
+}
+
+// 定义微信/钉钉错误返回结构体
 type sendMsgError struct {
 	ErrCode int    `json:"errcode`
 	ErrMsg  string `json:"errmsg"`
@@ -218,4 +254,25 @@ func SendMsg(AccessToken string, msgBody []byte) error {
 		return errors.New(string(buf))
 	}
 	return nil
+}
+
+// 发送钉钉
+func SendDingTalk(AccessToken string, msgBody []byte) error {
+	body := bytes.NewBuffer(msgBody)
+	resp, err := http.Post(webHook+AccessToken, "application/json", body)
+	if resp.StatusCode != 200 {
+		return requestError
+	}
+	buf, _ := ioutil.ReadAll(resp.Body)
+	resp.Body.Close()
+	var e sendMsgError
+	err = json.Unmarshal(buf, &e)
+	if err != nil {
+		return err
+	}
+	if e.ErrCode != 0 && e.ErrMsg != "ok" {
+		return errors.New(string(buf))
+	}
+	return nil
+
 }
