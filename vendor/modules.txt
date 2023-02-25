@@ -60,7 +60,7 @@ github.com/toolkits/sys
 github.com/toolkits/web
 # github.com/unrolled/render v1.0.1
 github.com/unrolled/render
-# golang.org/x/sys v0.0.0-20190924154521-2837fb4f24fe
+# golang.org/x/sys v0.1.0
 golang.org/x/sys/unix
 # google.golang.org/appengine v1.6.0
 google.golang.org/appengine/cloudsql
