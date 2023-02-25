@@ -24,9 +24,7 @@ require (
 	github.com/toolkits/sys v0.0.0-20170615103026-1f33b217ffaf
 	github.com/toolkits/web v0.0.0-20160312232617-dc0f03327e1d
 	github.com/unrolled/render v1.0.1
-	golang.org/x/crypto v0.0.0-20190923035154-9ee001bba392 // indirect
-	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
-	golang.org/x/sys v0.0.0-20190924154521-2837fb4f24fe // indirect
+	golang.org/x/crypto v0.1.0 // indirect
 	gopkg.in/asn1-ber.v1 v1.0.0-00010101000000-000000000000 // indirect
 	gopkg.in/yaml.v2 v2.2.7
 	stathat.com/c/consistent v1.0.0
