@@ -16,8 +16,6 @@ github.com/gorilla/context
 github.com/gorilla/mux
 # github.com/gorilla/securecookie v1.1.1
 github.com/gorilla/securecookie
-# github.com/konsorten/go-windows-terminal-sequences v1.0.1
-github.com/konsorten/go-windows-terminal-sequences
 # github.com/matttproud/golang_protobuf_extensions v1.0.1
 github.com/matttproud/golang_protobuf_extensions/pbutil
 # github.com/mmitton/ldap v0.0.0-20170928125358-2890b18948f2
@@ -40,7 +38,7 @@ github.com/prometheus/procfs/xfs
 # github.com/quipo/statsd v0.0.0-20180118161217-3d6a5565f314
 github.com/quipo/statsd
 github.com/quipo/statsd/event
-# github.com/sirupsen/logrus v1.4.2
+# github.com/sirupsen/logrus v1.8.3
 github.com/sirupsen/logrus
 # github.com/toolkits/container v0.0.0-20151219225805-ba7d73adeaca
 github.com/toolkits/container/list
@@ -60,8 +58,10 @@ github.com/toolkits/sys
 github.com/toolkits/web
 # github.com/unrolled/render v1.0.1
 github.com/unrolled/render
-# golang.org/x/sys v0.0.0-20190924154521-2837fb4f24fe
+# golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8
+golang.org/x/sys/internal/unsafeheader
 golang.org/x/sys/unix
+golang.org/x/sys/windows
 # google.golang.org/appengine v1.6.0
 google.golang.org/appengine/cloudsql
 # gopkg.in/asn1-ber.v1 v1.0.0-00010101000000-000000000000 => github.com/go-asn1-ber/asn1-ber v1.3.1
